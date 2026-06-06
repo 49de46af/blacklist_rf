@@ -23,4 +23,3 @@ jobs:
         with:
           paths: data/all-ru-*.txt
           message: "Update RIPE data $(date -u +%Y-%m-%d)"
-          custom_branch: 'true'
