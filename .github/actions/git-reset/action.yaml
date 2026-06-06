@@ -9,5 +9,6 @@ runs:
       run: |
         daily_branch=$(date -u +%Y%m%d)
         git fetch origin
-        git checkout "${daily_branch}" 2>/dev/null || git checkout -b "${daily_branch}" origin/main
-        git reset --hard "origin/${daily_branch}" 2>/dev/null || git reset --hard origin/main
+        default_branch=$(git remote show origin | sed -n 's/.*HEAD branch: //p')
+        git checkout "${daily_branch}" 2>/dev/null || git checkout -b "${daily_branch}" "origin/${default_branch}"
+        git reset --hard "origin/${daily_branch}" 2>/dev/null || git reset --hard "origin/${default_branch}"
