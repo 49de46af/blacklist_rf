@@ -47,11 +47,14 @@ def test_export_ipset():
             content = f.read()
         assert "create blacklist-v4 hash:net family inet" in content
         assert "add blacklist-v4 10.0.0.0/24" in content
+        assert "iptables -I INPUT -m set --match-set blacklist-v4 src" in content
+        assert "ipset flush blacklist-v4" in content
 
         with open(os.path.join(tmpdir, "blacklist-v6.ipset")) as f:
             content = f.read()
         assert "create blacklist-v6 hash:net family inet6" in content
         assert "add blacklist-v6 2001:db8::/32" in content
+        assert "ip6tables -I INPUT -m set --match-set blacklist-v6 src" in content
 
 
 def test_export_nftables():

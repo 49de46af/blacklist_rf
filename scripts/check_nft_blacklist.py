@@ -7,8 +7,11 @@ from ipaddress import ip_address, ip_network
 
 
 def parse_nft_config(filepath):
-    with open(filepath, encoding="utf-8") as f:
-        content = f.read()
+    if filepath == "-":
+        content = sys.stdin.read()
+    else:
+        with open(filepath, encoding="utf-8") as f:
+            content = f.read()
 
     v4_nets = []
     v6_nets = []

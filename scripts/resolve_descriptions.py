@@ -10,7 +10,7 @@ from lib.whois_client import whois_query
 PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
 DATA_DIR = os.path.join(PROJECT_ROOT, "data")
 
-DEFAULT_LIMIT = 3500
+DEFAULT_LIMIT = 2500
 
 
 def resolve_file(filepath, limit):
@@ -39,7 +39,7 @@ def resolve_file(filepath, limit):
         else:
             response = whois_query(entry, "netname", get_org=True)
 
-        if response is None:
+        if response is None or not isinstance(response, str):
             name = "-no-description-"
         else:
             name = response.strip()

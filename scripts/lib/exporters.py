@@ -55,10 +55,30 @@ def export_ipset(v4_file, v6_file, output_dir, vk_v4_file=None, vk_v6_file=None)
         count = len(prefixes)
         hashsize = max(count, 1024)
         maxelem = count * 2 if count else 2048
+        iptcmd = "ip6tables" if family == "inet6" else "iptables"
+        is_vk = "vk" in set_name
+
         with open(path, "w", encoding="utf-8") as f:
             f.write(f"# IPSet blacklist configuration\n")
             f.write(f"# Last updated: {_timestamp()}\n")
-            f.write(f"#\n# Usage: ipset restore < {os.path.basename(path)}\n#\n\n")
+            f.write("#\n")
+            f.write(f"# Usage:\n")
+            f.write(f"#   1. Load the ipset:\n")
+            f.write(f"#      ipset restore < {os.path.basename(path)}\n")
+            f.write("#\n")
+            if is_vk:
+                f.write(f"#   2. Use with {iptcmd}:\n")
+                f.write(f"#      {iptcmd} -I OUTPUT -m set --match-set {set_name} dst -j REJECT\n")
+                f.write(f"#      {iptcmd} -I FORWARD -m set --match-set {set_name} dst -j REJECT\n")
+            else:
+                f.write(f"#   2. Use with {iptcmd}:\n")
+                f.write(f"#      {iptcmd} -I INPUT -m set --match-set {set_name} src -m conntrack --ctstate NEW -j DROP\n")
+                f.write(f"#      {iptcmd} -I FORWARD -m set --match-set {set_name} src -m conntrack --ctstate NEW -j DROP\n")
+            f.write("#\n")
+            f.write(f"#   3. To flush/delete the set:\n")
+            f.write(f"#      ipset flush {set_name}\n")
+            f.write(f"#      ipset destroy {set_name}\n")
+            f.write("#\n\n")
             f.write(f"create {set_name} hash:net family {family} hashsize {hashsize} maxelem {maxelem}\n")
             for p in prefixes:
                 f.write(f"add {set_name} {p}\n")

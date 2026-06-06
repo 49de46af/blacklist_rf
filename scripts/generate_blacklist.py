@@ -5,6 +5,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
+from lib.io_utils import iter_netnames
 from lib.ripe_api import get_announced_prefixes
 from lib.whois_client import whois_query
 from lib.ip_utils import range_to_cidrs, aggregate_prefixes
@@ -97,17 +98,10 @@ def filter_by_patterns_with_desc(entries, patterns, exclude_patterns=None):
     return result
 
 
-def iter_netnames(filepath):
-    for line in load_lines(filepath):
-        if re.match(r"^netname:", line, re.IGNORECASE):
-            yield line.split(":", 1)[1].strip()
-        else:
-            yield line
-
-
 def resolve_netnames(netnames_file):
     results = []
-    for netname in iter_netnames(netnames_file):
+    lines = load_lines(netnames_file)
+    for netname in iter_netnames(lines):
         inetnums = whois_query(netname, "inetnum")
         if not inetnums or not isinstance(inetnums, list):
             continue

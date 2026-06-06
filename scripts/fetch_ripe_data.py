@@ -24,9 +24,20 @@ def main():
     print("Fetching RU resources from RIPE API...")
     resources = get_country_resources("RU")
 
-    write_resource_file(resources["asn"], os.path.join(DATA_DIR, "all-ru-asn.txt"), prefix="AS")
-    write_resource_file(resources["ipv4"], os.path.join(DATA_DIR, "all-ru-ipv4.txt"))
-    write_resource_file(resources["ipv6"], os.path.join(DATA_DIR, "all-ru-ipv6.txt"))
+    asn_path = os.path.join(DATA_DIR, "all-ru-asn.txt")
+    ipv4_path = os.path.join(DATA_DIR, "all-ru-ipv4.txt")
+    ipv6_path = os.path.join(DATA_DIR, "all-ru-ipv6.txt")
+
+    write_resource_file(resources["asn"], asn_path, prefix="AS")
+    write_resource_file(resources["ipv4"], ipv4_path)
+    write_resource_file(resources["ipv6"], ipv6_path)
+
+    all_path = os.path.join(DATA_DIR, "all-ru.txt")
+    with open(all_path, "w", encoding="utf-8") as out:
+        for path in [asn_path, ipv4_path, ipv6_path]:
+            with open(path, encoding="utf-8") as f:
+                out.write(f.read())
+    print(f"  {all_path} (combined)")
 
     print("Done.")
     return 0

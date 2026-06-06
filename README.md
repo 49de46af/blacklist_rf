@@ -42,18 +42,45 @@ All formats are in `output/`, split into v4/v6 where applicable. VK-specific var
 ## Usage
 
 ```bash
-uv run python scripts/fetch_ripe_data.py        # fetch data from RIPE API
-uv run python scripts/resolve_descriptions.py   # resolve descriptions via WHOIS
-uv run python scripts/parse_ripe_db.py           # parse RIPE DB dump
-uv run python scripts/generate_blacklist.py      # generate blacklist
-uv run python scripts/export_formats.py          # export to all formats
+uv run scripts/fetch_ripe_data.py        # fetch data from RIPE API
+uv run scripts/resolve_descriptions.py   # resolve descriptions via WHOIS
+uv run scripts/parse_ripe_db.py           # parse RIPE DB dump
+uv run scripts/generate_blacklist.py      # generate blacklist
+uv run scripts/export_formats.py          # export to all formats
 ```
 
 Check if an IP is in the blacklist:
 
 ```bash
-uv run python scripts/check_nft_blacklist.py output/blacklist.nft 31.177.95.1
+uv run scripts/check_nft_blacklist.py output/blacklist.nft 31.177.95.1
+cat output/blacklist.nft | uv run scripts/check_nft_blacklist.py - 31.177.95.1
 ```
+
+## CLI tools
+
+Standalone utilities for querying networks by ASN or netname.
+
+### network_list_from_as.py
+
+Retrieve networks announced by an AS number:
+
+```bash
+uv run scripts/network_list_from_as.py AS47764
+uv run scripts/network_list_from_as.py -q config/asn_blacklist.txt
+uv run scripts/network_list_from_as.py https://example.com/asns.txt
+echo "AS13238" | uv run scripts/network_list_from_as.py -q -
+```
+
+### network_list_from_netname.py
+
+Retrieve networks by network name via WHOIS:
+
+```bash
+uv run scripts/network_list_from_netname.py config/netnames.txt
+uv run scripts/network_list_from_netname.py -q https://example.com/netnames.txt
+```
+
+Both tools support file paths, URLs (GitHub URLs are auto-converted to raw), and stdin (`-`).
 
 ## GitHub Actions
 
