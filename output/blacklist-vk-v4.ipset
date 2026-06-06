@@ -1,0 +1,7 @@
+# IPSet blacklist configuration
+# Last updated: 2026-06-06 05:58:00 UTC
+#
+# Usage: ipset restore < blacklist-vk-v4.ipset
+#
+
+create blacklist-vk-v4 hash:net family inet hashsize 1024 maxelem 2048

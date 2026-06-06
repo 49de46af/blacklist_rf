@@ -1,0 +1,6 @@
+# Linux routes blackhole (IPv4)
+# Last updated: 2026-06-06 05:58:00 UTC
+#
+# Apply: sudo sh blacklist-vk-v4.routes
+#
+
