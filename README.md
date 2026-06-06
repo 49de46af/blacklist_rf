@@ -34,8 +34,7 @@ VK-specific blacklists are generated separately using `config/vk_patterns.txt` a
 | `blacklist-v4.ipset` | ipset (`hash:net`) |
 | `blacklist.nft` | nftables (sets) |
 | `blacklist-v4.routes` | Linux routes (blackhole) |
-| `blacklist.json` | Xray (routing rules) |
-| `blacklist.yaml` | Mihomo (rule-provider) |
+| `blacklist.yaml` | Mihomo (rule-provider, `behavior: ipcidr`) |
 
 All formats are in `output/`, split into v4/v6 where applicable. VK-specific variants (`blacklist-vk-*`) are also generated for nftables, ipset, and routes.
 

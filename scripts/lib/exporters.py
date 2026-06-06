@@ -1,4 +1,3 @@
-import json
 import os
 from datetime import datetime, UTC
 from ipaddress import ip_network, collapse_addresses
@@ -195,25 +194,6 @@ def export_routes(v4_file, v6_file, output_dir, vk_v4_file=None, vk_v6_file=None
         _write_routes(_read_prefixes(vk_v6_file), os.path.join(output_dir, "blacklist-vk-v6.routes"), ipv6=True)
 
 
-def export_xray(v4_file, v6_file, output_dir):
-    v4 = _read_prefixes(v4_file)
-    v6 = _read_prefixes(v6_file)
-
-    data = {
-        "rules": [
-            {
-                "type": "field",
-                "ip": v4 + v6,
-                "outboundTag": "block",
-            }
-        ]
-    }
-
-    path = os.path.join(output_dir, "blacklist.json")
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-
-
 def export_mihomo(v4_file, v6_file, output_dir):
     v4 = _read_prefixes(v4_file)
     v6 = _read_prefixes(v6_file)
@@ -221,10 +201,8 @@ def export_mihomo(v4_file, v6_file, output_dir):
     path = os.path.join(output_dir, "blacklist.yaml")
     with open(path, "w", encoding="utf-8") as f:
         f.write("payload:\n")
-        for p in v4:
-            f.write(f"  - 'IP-CIDR,{p}'\n")
-        for p in v6:
-            f.write(f"  - 'IP-CIDR6,{p}'\n")
+        for p in v4 + v6:
+            f.write(f"  - '{p}'\n")
 
 
 def export_all(v4_file, v6_file, output_dir, vk_v4_file=None, vk_v6_file=None):
@@ -232,5 +210,4 @@ def export_all(v4_file, v6_file, output_dir, vk_v4_file=None, vk_v6_file=None):
     export_ipset(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file)
     export_nftables(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file)
     export_routes(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file)
-    export_xray(v4_file, v6_file, output_dir)
     export_mihomo(v4_file, v6_file, output_dir)
