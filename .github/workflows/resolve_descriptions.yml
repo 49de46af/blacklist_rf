@@ -96,3 +96,4 @@ jobs:
           git fetch origin "${daily_branch}" || exit 0
           git merge "origin/${daily_branch}" --no-edit
           git push
+          git push origin --delete "${daily_branch}" || true
