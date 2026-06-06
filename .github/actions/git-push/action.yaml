@@ -35,4 +35,5 @@ runs:
       run: |
         git add ${{ inputs.paths }}
         git diff --staged --quiet || git commit -m "${{ inputs.message }}"
+        git pull --rebase || true
         git push
