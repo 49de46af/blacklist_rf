@@ -1,7 +1,17 @@
 # IPSet blacklist configuration
-# Last updated: 2026-06-06 07:30:02 UTC
+# Last updated: 2026-06-06 11:20:55 UTC
 #
-# Usage: ipset restore < blacklist-vk-v6.ipset
+# Usage:
+#   1. Load the ipset:
+#      ipset restore < blacklist-vk-v6.ipset
+#
+#   2. Use with ip6tables:
+#      ip6tables -I OUTPUT -m set --match-set blacklist-vk-v6 dst -j REJECT
+#      ip6tables -I FORWARD -m set --match-set blacklist-vk-v6 dst -j REJECT
+#
+#   3. To flush/delete the set:
+#      ipset flush blacklist-vk-v6
+#      ipset destroy blacklist-vk-v6
 #
 
 create blacklist-vk-v6 hash:net family inet6 hashsize 1024 maxelem 6

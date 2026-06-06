@@ -1,5 +1,5 @@
 # Linux routes blackhole (IPv4)
-# Last updated: 2026-06-06 07:30:02 UTC
+# Last updated: 2026-06-06 11:20:55 UTC
 #
 # Apply: sudo sh blacklist-v4.routes
 #
@@ -324,6 +324,7 @@ ip route replace 85.143.125.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 85.146.204.44/30 via 127.0.0.1 dev lo onlink
 ip route replace 85.158.185.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 85.192.32.0/22 via 127.0.0.1 dev lo onlink
+ip route replace 85.198.76.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 85.198.106.0/23 via 127.0.0.1 dev lo onlink
 ip route replace 85.236.29.160/27 via 127.0.0.1 dev lo onlink
 ip route replace 86.102.72.240/28 via 127.0.0.1 dev lo onlink
@@ -425,8 +426,7 @@ ip route replace 90.156.148.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 90.156.212.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 90.156.216.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 90.156.232.0/21 via 127.0.0.1 dev lo onlink
-ip route replace 90.156.244.0/23 via 127.0.0.1 dev lo onlink
-ip route replace 90.156.246.0/24 via 127.0.0.1 dev lo onlink
+ip route replace 90.156.244.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 90.156.248.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 91.103.194.184/29 via 127.0.0.1 dev lo onlink
 ip route replace 91.107.0.0/18 via 127.0.0.1 dev lo onlink
@@ -451,6 +451,7 @@ ip route replace 91.221.198.0/23 via 127.0.0.1 dev lo onlink
 ip route replace 91.223.93.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 91.226.250.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 91.227.32.0/24 via 127.0.0.1 dev lo onlink
+ip route replace 91.230.107.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 91.231.132.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 91.232.197.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 91.236.48.0/22 via 127.0.0.1 dev lo onlink
@@ -607,9 +608,7 @@ ip route replace 149.62.55.240/30 via 127.0.0.1 dev lo onlink
 ip route replace 155.212.192.0/20 via 127.0.0.1 dev lo onlink
 ip route replace 158.160.0.0/16 via 127.0.0.1 dev lo onlink
 ip route replace 161.104.104.0/21 via 127.0.0.1 dev lo onlink
-ip route replace 176.101.89.0/24 via 127.0.0.1 dev lo onlink
-ip route replace 176.101.90.0/23 via 127.0.0.1 dev lo onlink
-ip route replace 176.101.92.0/22 via 127.0.0.1 dev lo onlink
+ip route replace 176.101.88.0/21 via 127.0.0.1 dev lo onlink
 ip route replace 176.109.0.0/21 via 127.0.0.1 dev lo onlink
 ip route replace 176.112.168.0/21 via 127.0.0.1 dev lo onlink
 ip route replace 176.114.120.0/21 via 127.0.0.1 dev lo onlink
@@ -678,7 +677,7 @@ ip route replace 185.33.246.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 185.47.167.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 185.52.72.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 185.62.100.0/24 via 127.0.0.1 dev lo onlink
-ip route replace 185.62.203.0/24 via 127.0.0.1 dev lo onlink
+ip route replace 185.62.200.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 185.65.149.170/32 via 127.0.0.1 dev lo onlink
 ip route replace 185.73.192.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 185.86.144.0/22 via 127.0.0.1 dev lo onlink
@@ -688,6 +687,7 @@ ip route replace 185.100.104.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 185.130.112.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 185.131.68.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 185.135.172.0/22 via 127.0.0.1 dev lo onlink
+ip route replace 185.138.252.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 185.149.160.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 185.157.96.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 185.168.60.0/22 via 127.0.0.1 dev lo onlink
@@ -748,6 +748,7 @@ ip route replace 193.222.191.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 193.232.22.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 193.232.70.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 193.232.169.0/24 via 127.0.0.1 dev lo onlink
+ip route replace 194.1.214.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 194.8.70.0/23 via 127.0.0.1 dev lo onlink
 ip route replace 194.8.224.0/23 via 127.0.0.1 dev lo onlink
 ip route replace 194.8.246.0/23 via 127.0.0.1 dev lo onlink
@@ -944,7 +945,8 @@ ip route replace 213.176.232.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 213.177.111.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 213.180.192.0/19 via 127.0.0.1 dev lo onlink
 ip route replace 213.183.253.56/29 via 127.0.0.1 dev lo onlink
-ip route replace 213.184.154.0/24 via 127.0.0.1 dev lo onlink
+ip route replace 213.184.154.0/23 via 127.0.0.1 dev lo onlink
+ip route replace 213.184.156.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 213.219.212.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 213.219.237.68/30 via 127.0.0.1 dev lo onlink
 ip route replace 213.234.8.8/30 via 127.0.0.1 dev lo onlink
