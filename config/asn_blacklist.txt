@@ -1,0 +1,130 @@
+# ASNs to force-include in the blacklist (regardless of pattern matching)
+# Format: one ASN per line, comments with #
+#
+# Source: https://docs.google.com/spreadsheets/d/1YWS5aMEykkM9koxcZW1q_bZBi2j1UGmTbhFhOfnrd4k
+
+# --- Yandex ---
+AS13238    # YANDEX LLC
+AS207304   # YANDEX-KZ
+AS44534    # yandex-office YANDEX LLC
+AS215109   # YANDEX-COM YANDEX LLC
+AS200350   # YandexCloud Yandex.Cloud LLC
+AS208795   # YANDEXCLOUDKZ Cloud Services Kazakhstan LLP
+AS212066   # YANDEX-COM-TR
+AS207207   # YL30 Yandex.OFD LLC
+AS210656   # YACLOUDBMS Yandex.Cloud LLC
+AS215013   # YACLOUDCDN Yandex.Cloud LLC
+AS202611   # YCTL Yandex.Telecom LLC
+AS213952   # YACLOUDII Yandex.Telecom LLC
+
+# --- VK / Mail.ru / Odnoklassniki ---
+AS47764    # VK-AS LLC VK
+AS60863    # VK-AS LLC VK
+AS28709    # VKONTAKTE-REGIONAL-CDN LLC VK
+AS29043    # VKE-AS
+AS43038    # TVK-AS MTS PJSC
+AS43720    # TVK-AS MTS OJSC
+AS201817   # KZVKTECH VK Tech Kazakhstan LLP
+AS62331    # TVK-AS Media Holding TVK Ltd.
+AS62243    # VKONTAKTE-SPBZN-AS LLC VK
+AS47541    # VKONTAKTE-SPB-AS LLC VK
+AS47542    # VKONTAKTE-MSK-CDN-AS LLC VK
+AS49797    # NESSLY LLC VK
+AS49988    # odkl-as LLC VK (Odnoklassniki)
+AS57973    # CLOUDGAMING-REGION-AS LLC VK
+AS199295   # VK
+AS200619   # VKT-AS Trading house VKT Ltd.
+AS207970   # mailru-as LLC VK
+AS207581   # VKONTAKTE-SPBKM-AS LLC VK
+AS213235   # mailru-as LLC VK
+AS48781    # AVK-COM-AS
+AS211963   # MAILRU-IS LLC VK
+
+# --- Sberbank ---
+AS211631   # SBERINS Sberbank Insurance LLC
+AS35237    # Sberbank of Russia PJSC
+AS205221   # SBERKORUS LLC
+AS208117   # SBERINSUR Sberbank life insurance LLC
+AS44408    # Sber-SMR-AS Sberbank of Russia PJSC
+AS43396    # Sber-NSK-AS Sberbank of Russia PJSC
+AS45000    # Sber-EKB-AS Sberbank of Russia PJSC
+AS205161   # Sber-SPB-AS Sberbank of Russia PJSC
+AS208165   # SberLeasing AO
+AS33844    # SBERBANK-CIB Sberbank of Russia PJSC
+AS58112    # Sber-BAL-VDI Sberbank of Russia PJSC
+AS60122    # SBERBANK-VDI Sberbank of Russia PJSC
+AS42628    # NPFSBERBANKA-AS
+AS42974    # Sberbank
+AS206673   # Sberbank-Telecom LLC
+AS209701   # SBERBANK-FACTORING Ltd.
+AS47457    # SBERBANK-BALAKOVO-AS
+AS205158   # SBRF-CAPITAL Sberbank Capital LLC
+AS48826    # WESTURALSBANK-AS Sberbank of Russia PJSC
+
+# --- Tinkoff / T-Bank ---
+AS12686    # rosbank-as TBANK JSC
+AS28712    # T-Media TBANK JSC
+AS205638   # TM-AS-MSK TBANK JSC
+AS34147    # TBANK
+AS43399    # TCS-AS TBANK JSC
+
+# --- Wildberries ---
+AS57073    # Wildberries-AS LLC
+AS201512   # AS_WILDBERRIES_CDN LLC
+AS49053    # AS_WB-TECH LLC
+AS201513   # AS_WILDBERRIES_KZ LLC
+AS213105   # AS_eAPTEKA LLC Wildberries
+AS211517   # AS_WILDBERRIES_GE LLC
+AS215070   # AS_WILDBERRIES_BY LLC
+AS44386    # Wildberries
+
+# --- Ozon ---
+AS207986   # OZON-BANK-AS LLC OZON BANK
+
+# --- Avito ---
+AS201012   # Avito KEH eCommerce LLC
+
+# --- VTB ---
+AS41551    # VTB-AS VTB Bank PJSC
+AS57930    # VTB_Insurance-AS Gazprom Insurance Ltd
+AS51418    # Krayinvestbank-AS VTB Bank PJSC
+AS34662    # MMBANK-AS VTB Bank PJSC
+AS41226    # SUPERBANK-RU-AS VTB Bank PJSC
+AS41430    # RNCB-AS VTB Bank PJSC
+AS21410    # VTB
+AS45003    # VTB
+AS24823    # VTB-BANK-AS VTB Bank PJSC
+AS60702    # POSTBANK VTB Bank PJSC
+AS216062   # RNCB-AS-2 VTB Bank PJSC
+AS216202   # vtbank_kaz VTB Bank Kazakhstan
+
+# --- Alfa-Bank ---
+AS34838    # ALFAINS-AS AlfaInsurance JSC
+AS49641    # ALFACOM-AS Alfacom OOO
+AS206538   # ALFA-AS Alfa-Telecom OOO
+AS208811   # ALFA_ALTUF ALFA-BANK JSC
+AS51612    # ALFATEL-AS Alfatel plus Ltd
+AS35527    # ALPHATEL-AS AlfaTEL OOO
+AS205754   # TK-ALPHA TK Alfa JSC
+AS211716   # TK-Alfa-net TK Alfa JSC
+AS214109   # TKALFAIP-AS TK Alfa IP LLC
+AS15632    # Alfa-Bank-AS Alfa-Bank JSC
+
+# --- 2GIS ---
+AS197482   # DGIS DoubleGIS LLC
+
+# --- Megamarket ---
+AS49679    # MEGAMARKET-AS Megamarket ltd
+
+# --- RuTube / RuForm ---
+AS207353   # Ruform LLC
+
+# --- MIR / NSPK ---
+AS39718    # MIR-AS Mir Telecom LLC
+AS50339    # NSPK National system of payment cards JSC
+AS21292    # NSPK
+AS41185    # NSPK-EC-AS
+AS41187    # NSPK-SBP-AS
+
+# --- Government services / Rostelecom ---
+AS196747   # Electronic-government Rostelecom PJSC

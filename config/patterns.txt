@@ -1,0 +1,24 @@
+# Regex patterns for auto-filtering ASN and network descriptions
+# One pattern per line, case-insensitive
+# Blank lines and lines starting with # are ignored
+#
+uvd
+umvd
+fgup
+grchc
+roskomnad
+federalnaya sluzhba
+ufsb
+zonatelecom
+llc vk
+vkontakte
+ODNOKLASSNIKI
+VKCOMPANY
+mail.ru
+mail-ru
+mail_ru
+VK-AS
+M100
+ru-netbridge-19911202
+ru-netbridge-20061117
+odnoklassniki-front

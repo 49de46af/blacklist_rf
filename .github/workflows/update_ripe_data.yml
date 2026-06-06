@@ -1,0 +1,26 @@
+name: Fetch RIPE data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 1 * *'
+
+jobs:
+  fetch:
+    name: Fetch RU resources from RIPE
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+
+      - uses: astral-sh/setup-uv@v4
+
+      - run: uv run python scripts/fetch_ripe_data.py
+
+      - uses: ./.github/actions/git-push
+        with:
+          paths: data/all-ru-*.txt
+          message: "Update RIPE data $(date -u +%Y-%m-%d)"
+          custom_branch: 'true'

@@ -1,0 +1,20 @@
+# nftables blacklist
+# Generated: 2026-06-06 03:24:33 UTC
+# IPv4: 0, IPv6: 0
+#
+# Usage: sudo nft -f <this-file>
+#
+
+table inet filter {
+
+    set blacklist_v4 {
+        type ipv4_addr
+        flags interval
+    }
+
+    set blacklist_v6 {
+        type ipv6_addr
+        flags interval
+    }
+
+}

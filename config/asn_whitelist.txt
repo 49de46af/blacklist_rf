@@ -1,0 +1,5 @@
+# ASNs to force-exclude from the blacklist
+# Even if the ASN description matches a pattern, it will NOT be blocked
+# Format: one ASN per line, comments with #
+#
+AS196745  # RUVDS — hosting provider

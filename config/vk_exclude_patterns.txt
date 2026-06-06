@@ -1,0 +1,5 @@
+# Patterns to exclude from VK blacklist
+# Prevents blocking VK cloud hosting customers
+# One pattern per line, case-insensitive
+#
+VK Cloud Solutions VK Hosting

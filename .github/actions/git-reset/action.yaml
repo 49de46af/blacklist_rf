@@ -1,0 +1,13 @@
+name: Git Reset to Daily Branch
+description: Sync working tree to the daily branch to pick up prior job changes
+
+runs:
+  using: composite
+  steps:
+    - name: Reset to daily branch
+      shell: bash
+      run: |
+        daily_branch=$(date -u +%Y%m%d)
+        git fetch origin
+        git checkout "${daily_branch}" 2>/dev/null || git checkout -b "${daily_branch}" origin/main
+        git reset --hard "origin/${daily_branch}" 2>/dev/null || git reset --hard origin/main

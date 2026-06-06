@@ -1,0 +1,38 @@
+name: Git Push
+description: Commit and push changes, optionally to a daily branch
+
+inputs:
+  paths:
+    description: Paths to stage (space-separated)
+    required: true
+  message:
+    description: Commit message
+    required: true
+  custom_branch:
+    description: Push to a daily branch (YYYYMMDD) instead of current branch
+    required: false
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - name: Configure git
+      shell: bash
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Switch to daily branch
+      if: inputs.custom_branch == 'true'
+      shell: bash
+      run: |
+        daily_branch=$(date -u +%Y%m%d)
+        git checkout "${daily_branch}" 2>/dev/null || git checkout -b "${daily_branch}"
+        git push --set-upstream origin "${daily_branch}" || true
+
+    - name: Commit and push
+      shell: bash
+      run: |
+        git add ${{ inputs.paths }}
+        git diff --staged --quiet || git commit -m "${{ inputs.message }}"
+        git push

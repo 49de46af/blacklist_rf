@@ -1,0 +1,98 @@
+name: Resolve WHOIS descriptions
+
+env:
+  WHOIS_RESOLVE_LIMIT: 3500
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2-5,7 1 * *'
+
+jobs:
+  resolve-asn:
+    name: Resolve ASN descriptions
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT }}
+
+      - uses: ./.github/actions/git-reset
+
+      - uses: astral-sh/setup-uv@v4
+
+      - run: uv run python scripts/resolve_descriptions.py --limit ${{ env.WHOIS_RESOLVE_LIMIT }} data/all-ru-asn.txt
+
+      - uses: ./.github/actions/git-push
+        with:
+          paths: data/all-ru-*.txt
+          message: "Resolve ASN descriptions $(date -u +%Y-%m-%d)"
+          custom_branch: 'true'
+
+  resolve-ipv4:
+    name: Resolve IPv4 descriptions
+    runs-on: ubuntu-22.04
+    needs: resolve-asn
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT }}
+
+      - uses: ./.github/actions/git-reset
+
+      - uses: astral-sh/setup-uv@v4
+
+      - run: uv run python scripts/resolve_descriptions.py --limit ${{ env.WHOIS_RESOLVE_LIMIT }} data/all-ru-ipv4.txt
+
+      - uses: ./.github/actions/git-push
+        with:
+          paths: data/all-ru-*.txt
+          message: "Resolve IPv4 descriptions $(date -u +%Y-%m-%d)"
+          custom_branch: 'true'
+
+  resolve-ipv6:
+    name: Resolve IPv6 descriptions
+    runs-on: ubuntu-22.04
+    needs: resolve-ipv4
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT }}
+
+      - uses: ./.github/actions/git-reset
+
+      - uses: astral-sh/setup-uv@v4
+
+      - run: uv run python scripts/resolve_descriptions.py --limit ${{ env.WHOIS_RESOLVE_LIMIT }} data/all-ru-ipv6.txt
+
+      - uses: ./.github/actions/git-push
+        with:
+          paths: data/all-ru-*.txt
+          message: "Resolve IPv6 descriptions $(date -u +%Y-%m-%d)"
+          custom_branch: 'true'
+
+  merge:
+    name: Merge daily branch
+    runs-on: ubuntu-22.04
+    needs: resolve-ipv6
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Merge daily branch to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          daily_branch=$(date -u +%Y%m%d)
+          git fetch origin "${daily_branch}" || exit 0
+          git merge "origin/${daily_branch}" --no-edit
+          git push

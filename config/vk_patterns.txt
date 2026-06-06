@@ -1,0 +1,9 @@
+# Regex patterns for VK/Odnoklassniki network filtering
+# Matched against descriptions in data files (IPv4, IPv6, RIPE)
+# One pattern per line, case-insensitive
+#
+ru-netbridge-(19911202|20061117)
+odnoklassniki
+vkcompany
+vkontakte
+llc vk

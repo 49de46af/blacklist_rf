@@ -1,0 +1,6 @@
+# Regex patterns for excluding entries from the blacklist
+# If an ASN/network description matches a pattern from patterns.txt
+# but ALSO matches a pattern from this file, it will be excluded
+# One pattern per line, case-insensitive
+#
+ruvds

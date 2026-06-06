@@ -1,0 +1,6 @@
+# Linux routes blackhole (IPv6)
+# Last updated: 2026-06-06 03:24:33 UTC
+#
+# Apply: sudo sh blacklist-v6.routes
+#
+
