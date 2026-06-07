@@ -1,5 +1,5 @@
 # nftables blacklist
-# Generated: 2026-06-06 11:20:55 UTC
+# Generated: 2026-06-07 12:24:07 UTC
 # IPv4: 991, IPv6: 0
 #
 # Usage: sudo nft -f <this-file>
