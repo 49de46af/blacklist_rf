@@ -1,0 +1,37 @@
+# Linux routes blackhole (IPv6)
+# Last updated: 2026-06-08 15:52:54 UTC
+#
+# Apply: sudo sh rkn-collaborants-v6.routes
+#
+
+ip -6 route replace 2001:678:384::/48 via ::1 dev lo
+ip -6 route replace 2001:67c:28bc::/48 via ::1 dev lo
+ip -6 route replace 2a00:1148::/29 via ::1 dev lo
+ip -6 route replace 2a00:46e0::/32 via ::1 dev lo
+ip -6 route replace 2a00:4c00:3::/48 via ::1 dev lo
+ip -6 route replace 2a00:5da0:8010::/48 via ::1 dev lo
+ip -6 route replace 2a00:b4c0::/32 via ::1 dev lo
+ip -6 route replace 2a00:bdc0::/33 via ::1 dev lo
+ip -6 route replace 2a00:bdc0:8000::/34 via ::1 dev lo
+ip -6 route replace 2a00:bdc0:c000::/35 via ::1 dev lo
+ip -6 route replace 2a00:bdc0:e002::/47 via ::1 dev lo
+ip -6 route replace 2a00:bdc0:e004::/47 via ::1 dev lo
+ip -6 route replace 2a00:bdc0:e007::/48 via ::1 dev lo
+ip -6 route replace 2a00:bdc0:f000::/36 via ::1 dev lo
+ip -6 route replace 2a00:bdc1::/32 via ::1 dev lo
+ip -6 route replace 2a00:bdc2::/31 via ::1 dev lo
+ip -6 route replace 2a00:bdc4::/30 via ::1 dev lo
+ip -6 route replace 2a02:6b8::/29 via ::1 dev lo
+ip -6 route replace 2a03:720::/32 via ::1 dev lo
+ip -6 route replace 2a03:2980::/32 via ::1 dev lo
+ip -6 route replace 2a07:a600::/29 via ::1 dev lo
+ip -6 route replace 2a07:aa40:20::/44 via ::1 dev lo
+ip -6 route replace 2a0b:1440::/32 via ::1 dev lo
+ip -6 route replace 2a0b:1447:20::/44 via ::1 dev lo
+ip -6 route replace 2a0d:d6c0::/31 via ::1 dev lo
+ip -6 route replace 2a0d:d6c7:14::/47 via ::1 dev lo
+ip -6 route replace 2a14:25c0::/32 via ::1 dev lo
+ip -6 route replace 2a14:25c5::/32 via ::1 dev lo
+ip -6 route replace 2a14:25c6::/31 via ::1 dev lo
+ip -6 route replace 2a14:48c5::/48 via ::1 dev lo
+ip -6 route replace 2a14:48c6::/48 via ::1 dev lo
