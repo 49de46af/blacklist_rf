@@ -22,8 +22,13 @@ def main() -> int:
     vk_v4 = vk_v4_file if vk_v4_file.exists() else None
     vk_v6 = vk_v6_file if vk_v6_file.exists() else None
 
+    rkn_v4_file = OUTPUT_DIR / "rkn-collaborants-v4.txt"
+    rkn_v6_file = OUTPUT_DIR / "rkn-collaborants-v6.txt"
+    rkn_v4 = rkn_v4_file if rkn_v4_file.exists() else None
+    rkn_v6 = rkn_v6_file if rkn_v6_file.exists() else None
+
     print("Exporting blacklists to all formats...")
-    export_all(v4_file, v6_file, OUTPUT_DIR, vk_v4, vk_v6)
+    export_all(v4_file, v6_file, OUTPUT_DIR, vk_v4, vk_v6, rkn_v4, rkn_v6)
 
     exported = [f for f in OUTPUT_DIR.iterdir() if not f.name.endswith(".txt") and not f.name.startswith(".")]
     print(f"Exported {len(exported)} files:")

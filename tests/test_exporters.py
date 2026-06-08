@@ -20,6 +20,16 @@ def _create_prefix_files(tmpdir):
     return v4_path, v6_path
 
 
+def _create_rkn_files(tmpdir):
+    rkn_v4 = os.path.join(tmpdir, "rkn-v4.txt")
+    rkn_v6 = os.path.join(tmpdir, "rkn-v6.txt")
+    with open(rkn_v4, "w") as f:
+        f.write("172.16.0.0/16\n")
+    with open(rkn_v6, "w") as f:
+        f.write("2001:db8:1::/48\n")
+    return rkn_v4, rkn_v6
+
+
 def test_export_nginx():
     with tempfile.TemporaryDirectory() as tmpdir:
         v4, v6 = _create_prefix_files(tmpdir)
@@ -93,3 +103,66 @@ def test_export_mihomo():
         assert "payload:" in content
         assert "'10.0.0.0/24'" in content
         assert "'2001:db8::/32'" in content
+
+
+def test_export_nginx_rkn():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        v4, v6 = _create_prefix_files(tmpdir)
+        rkn_v4, rkn_v6 = _create_rkn_files(tmpdir)
+        export_nginx(v4, v6, tmpdir, rkn_v4, rkn_v6)
+
+        with open(os.path.join(tmpdir, "rkn-collaborants.conf")) as f:
+            content = f.read()
+        assert "deny 172.16.0.0/16;" in content
+        assert "deny 2001:db8:1::/48;" in content
+
+        with open(os.path.join(tmpdir, "rkn-collaborants-v4.conf")) as f:
+            content = f.read()
+        assert "deny 172.16.0.0/16;" in content
+        assert "2001:db8" not in content
+
+
+def test_export_ipset_rkn():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        v4, v6 = _create_prefix_files(tmpdir)
+        rkn_v4, rkn_v6 = _create_rkn_files(tmpdir)
+        export_ipset(v4, v6, tmpdir, rkn_v4_file=rkn_v4, rkn_v6_file=rkn_v6)
+
+        with open(os.path.join(tmpdir, "rkn-collaborants-v4.ipset")) as f:
+            content = f.read()
+        assert "create rkn-collaborants-v4 hash:net family inet" in content
+        assert "add rkn-collaborants-v4 172.16.0.0/16" in content
+
+        with open(os.path.join(tmpdir, "rkn-collaborants-v6.ipset")) as f:
+            content = f.read()
+        assert "create rkn-collaborants-v6 hash:net family inet6" in content
+        assert "add rkn-collaborants-v6 2001:db8:1::/48" in content
+
+
+def test_export_nftables_rkn():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        v4, v6 = _create_prefix_files(tmpdir)
+        rkn_v4, rkn_v6 = _create_rkn_files(tmpdir)
+        export_nftables(v4, v6, tmpdir, rkn_v4_file=rkn_v4, rkn_v6_file=rkn_v6)
+
+        with open(os.path.join(tmpdir, "rkn-collaborants.nft")) as f:
+            content = f.read()
+        assert "set rkn_collaborants_v4 {" in content
+        assert "set rkn_collaborants_v6 {" in content
+        assert "172.16.0.0/16" in content
+        assert "2001:db8:1::/48" in content
+
+
+def test_export_routes_rkn():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        v4, v6 = _create_prefix_files(tmpdir)
+        rkn_v4, rkn_v6 = _create_rkn_files(tmpdir)
+        export_routes(v4, v6, tmpdir, rkn_v4_file=rkn_v4, rkn_v6_file=rkn_v6)
+
+        with open(os.path.join(tmpdir, "rkn-collaborants-v4.routes")) as f:
+            content = f.read()
+        assert "ip route replace 172.16.0.0/16 via 127.0.0.1 dev lo onlink" in content
+
+        with open(os.path.join(tmpdir, "rkn-collaborants-v6.routes")) as f:
+            content = f.read()
+        assert "ip -6 route replace 2001:db8:1::/48 via ::1 dev lo" in content

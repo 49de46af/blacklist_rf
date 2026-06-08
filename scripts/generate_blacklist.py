@@ -173,6 +173,53 @@ def _build_main_blacklist() -> tuple[list[tuple[str, str]], list[tuple[str, str]
     return ipv4_entries, ripe_entries
 
 
+def _build_rkn_collaborants() -> None:
+    collaborants_asns = load_asn_list(CONFIG_DIR / "rkn_collaborants.txt")
+    if not collaborants_asns:
+        return
+
+    print("Building RKN collaborants blacklists...")
+    asn_entries = load_data_file(DATA_DIR / "all-ru-asn.txt")
+    asn_desc_map = {e.upper(): d for e, d in asn_entries}
+
+    all_prefixes = []
+    commented_lines = []
+    for i, asn in enumerate(sorted(collaborants_asns)):
+        prefixes = get_announced_prefixes(asn)
+        all_prefixes.extend(prefixes)
+        if prefixes:
+            desc = asn_desc_map.get(asn, "")
+            commented_lines.append(f"# AS-Name: {asn} {desc}")
+            commented_lines.extend(prefixes)
+        if (i + 1) % 10 == 0:
+            print(f"  {i + 1}/{len(collaborants_asns)} ASNs resolved...")
+
+    commented_path = OUTPUT_DIR / "rkn-collaborants_with_comments.txt"
+    with open(commented_path, "w", encoding="utf-8") as f:
+        for line in commented_lines:
+            f.write(line + "\n")
+
+    v4_list, v6_list = aggregate_prefixes(all_prefixes)
+
+    rkn_path = OUTPUT_DIR / "rkn-collaborants.txt"
+    rkn_v4_path = OUTPUT_DIR / "rkn-collaborants-v4.txt"
+    rkn_v6_path = OUTPUT_DIR / "rkn-collaborants-v6.txt"
+
+    with open(rkn_path, "w", encoding="utf-8") as f:
+        for p in v4_list + v6_list:
+            f.write(p + "\n")
+    with open(rkn_v4_path, "w", encoding="utf-8") as f:
+        for p in v4_list:
+            f.write(p + "\n")
+    with open(rkn_v6_path, "w", encoding="utf-8") as f:
+        for p in v6_list:
+            f.write(p + "\n")
+
+    print(f"  {rkn_path} ({len(v4_list) + len(v6_list)} entries)")
+    print(f"  {rkn_v4_path} ({len(v4_list)} IPv4)")
+    print(f"  {rkn_v6_path} ({len(v6_list)} IPv6)")
+
+
 def _build_vk_blacklist(ipv4_entries: list[tuple[str, str]], ripe_entries: list[tuple[str, str]]) -> None:
     vk_patterns = read_prefixes(CONFIG_DIR / "vk_patterns.txt")
     vk_exclude = read_prefixes(CONFIG_DIR / "vk_exclude_patterns.txt")
@@ -209,6 +256,7 @@ def _build_vk_blacklist(ipv4_entries: list[tuple[str, str]], ripe_entries: list[
 
 def main() -> int:
     ipv4_entries, ripe_entries = _build_main_blacklist()
+    _build_rkn_collaborants()
     _build_vk_blacklist(ipv4_entries, ripe_entries)
     return 0
 

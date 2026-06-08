@@ -19,7 +19,7 @@ def _aggregate(prefixes: list[str]) -> list[IPv4Network | IPv6Network]:
     return sorted(collapse_addresses(nets))
 
 
-def export_nginx(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path) -> None:
+def export_nginx(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, rkn_v4_file: str | Path | None = None, rkn_v6_file: str | Path | None = None) -> None:
     v4 = read_prefixes(v4_file)
     v6 = read_prefixes(v6_file)
 
@@ -37,8 +37,22 @@ def export_nginx(v4_file: str | Path, v6_file: str | Path, output_dir: str | Pat
     _write_nginx(v4, output_dir / "blacklist-v4.conf", "(IPv4 only)")
     _write_nginx(v6, output_dir / "blacklist-v6.conf", "(IPv6 only)")
 
+    if rkn_v4_file and Path(rkn_v4_file).exists():
+        rkn_v4 = read_prefixes(rkn_v4_file)
+    else:
+        rkn_v4 = []
+    if rkn_v6_file and Path(rkn_v6_file).exists():
+        rkn_v6 = read_prefixes(rkn_v6_file)
+    else:
+        rkn_v6 = []
 
-def export_ipset(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None) -> None:
+    if rkn_v4 or rkn_v6:
+        _write_nginx(rkn_v4 + rkn_v6, output_dir / "rkn-collaborants.conf", "RKN collaborants (mixed IPv4/IPv6)")
+        _write_nginx(rkn_v4, output_dir / "rkn-collaborants-v4.conf", "RKN collaborants (IPv4 only)")
+        _write_nginx(rkn_v6, output_dir / "rkn-collaborants-v6.conf", "RKN collaborants (IPv6 only)")
+
+
+def export_ipset(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None, rkn_v4_file: str | Path | None = None, rkn_v6_file: str | Path | None = None) -> None:
     v4 = read_prefixes(v4_file)
     v6 = read_prefixes(v6_file)
 
@@ -86,6 +100,13 @@ def export_ipset(v4_file: str | Path, v6_file: str | Path, output_dir: str | Pat
         vk_v6 = read_prefixes(vk_v6_file)
         _write_ipset(vk_v6, output_dir / "blacklist-vk-v6.ipset", "blacklist-vk-v6", "inet6")
 
+    if rkn_v4_file and Path(rkn_v4_file).exists():
+        rkn_v4 = read_prefixes(rkn_v4_file)
+        _write_ipset(rkn_v4, output_dir / "rkn-collaborants-v4.ipset", "rkn-collaborants-v4", "inet")
+    if rkn_v6_file and Path(rkn_v6_file).exists():
+        rkn_v6 = read_prefixes(rkn_v6_file)
+        _write_ipset(rkn_v6, output_dir / "rkn-collaborants-v6.ipset", "rkn-collaborants-v6", "inet6")
+
 
 def _write_nft(v4_nets: list[str], v6_nets: list[str], path: str | Path, set_v4_name: str, set_v6_name: str, usage_profile: str = "vm_input") -> None:
     path = Path(path)
@@ -132,7 +153,7 @@ def _write_nft(v4_nets: list[str], v6_nets: list[str], path: str | Path, set_v4_
     path.chmod(0o644)
 
 
-def export_nftables(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None) -> None:
+def export_nftables(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None, rkn_v4_file: str | Path | None = None, rkn_v6_file: str | Path | None = None) -> None:
     v4_raw = read_prefixes(v4_file)
     v6_raw = read_prefixes(v6_file)
 
@@ -167,8 +188,26 @@ def export_nftables(v4_file: str | Path, v6_file: str | Path, output_dir: str | 
             _write_nft(v4, v6, output_dir / name,
                         "blacklist_vk_v4", "blacklist_vk_v6", "vk_forward")
 
+    if rkn_v4_file and Path(rkn_v4_file).exists():
+        rkn_v4 = [str(n) for n in _aggregate(read_prefixes(rkn_v4_file))]
+    else:
+        rkn_v4 = []
+    if rkn_v6_file and Path(rkn_v6_file).exists():
+        rkn_v6 = [str(n) for n in _aggregate(read_prefixes(rkn_v6_file))]
+    else:
+        rkn_v6 = []
 
-def export_routes(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None) -> None:
+    if rkn_v4 or rkn_v6:
+        for name, v4, v6 in [
+            ("rkn-collaborants.nft", rkn_v4, rkn_v6),
+            ("rkn-collaborants-v4.nft", rkn_v4, []),
+            ("rkn-collaborants-v6.nft", [], rkn_v6),
+        ]:
+            _write_nft(v4, v6, output_dir / name,
+                        "rkn_collaborants_v4", "rkn_collaborants_v6")
+
+
+def export_routes(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None, rkn_v4_file: str | Path | None = None, rkn_v6_file: str | Path | None = None) -> None:
     def _write_routes(prefixes, path, ipv6=False):
         path = Path(path)
         with open(path, "w", encoding="utf-8") as f:
@@ -191,6 +230,11 @@ def export_routes(v4_file: str | Path, v6_file: str | Path, output_dir: str | Pa
     if vk_v6_file and Path(vk_v6_file).exists():
         _write_routes(read_prefixes(vk_v6_file), output_dir / "blacklist-vk-v6.routes", ipv6=True)
 
+    if rkn_v4_file and Path(rkn_v4_file).exists():
+        _write_routes(read_prefixes(rkn_v4_file), output_dir / "rkn-collaborants-v4.routes")
+    if rkn_v6_file and Path(rkn_v6_file).exists():
+        _write_routes(read_prefixes(rkn_v6_file), output_dir / "rkn-collaborants-v6.routes", ipv6=True)
+
 
 def export_mihomo(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path) -> None:
     v4 = read_prefixes(v4_file)
@@ -203,9 +247,9 @@ def export_mihomo(v4_file: str | Path, v6_file: str | Path, output_dir: str | Pa
             f.write(f"  - '{p}'\n")
 
 
-def export_all(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None) -> None:
-    export_nginx(v4_file, v6_file, output_dir)
-    export_ipset(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file)
-    export_nftables(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file)
-    export_routes(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file)
+def export_all(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None, rkn_v4_file: str | Path | None = None, rkn_v6_file: str | Path | None = None) -> None:
+    export_nginx(v4_file, v6_file, output_dir, rkn_v4_file, rkn_v6_file)
+    export_ipset(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file, rkn_v4_file, rkn_v6_file)
+    export_nftables(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file, rkn_v4_file, rkn_v6_file)
+    export_routes(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file, rkn_v4_file, rkn_v6_file)
     export_mihomo(v4_file, v6_file, output_dir)

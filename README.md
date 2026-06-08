@@ -23,20 +23,24 @@ Four levels:
 
 Additionally, netnames from `config/netnames.txt` are resolved via WHOIS.
 
-VK-specific blacklists are generated separately using `config/vk_patterns.txt` and `config/vk_exclude_patterns.txt`.
+### Separate lists
+
+**RKN Collaborants** (`config/rkn_collaborants.txt`) — ASNs of companies cooperating with Russian censorship (Yandex, VK, Sberbank, T-Bank, Wildberries, Ozon, Avito, VTB, Alfa-Bank, 2GIS, Megamarket, RuTube, MIR/NSPK, Rostelecom). Generated independently from the main blacklist via RIPE API. Output: `rkn-collaborants*` files in all formats.
+
+**VK** (`config/vk_patterns.txt`, `config/vk_exclude_patterns.txt`) — VK/Odnoklassniki networks filtered by description. Output: `blacklist-vk*` files.
 
 ## Output formats
 
-| File | Purpose |
-|------|---------|
-| `blacklist.txt` | Plain CIDR list |
-| `blacklist.conf` | nginx (`deny`) |
-| `blacklist-v4.ipset` | ipset (`hash:net`) |
-| `blacklist.nft` | nftables (sets) |
-| `blacklist-v4.routes` | Linux routes (blackhole) |
-| `blacklist.yaml` | Mihomo (rule-provider, `behavior: ipcidr`) |
+| Format | Main blacklist | RKN Collaborants | VK |
+|--------|---------------|-------------------|-----|
+| Plain CIDR | `blacklist.txt` | `rkn-collaborants.txt` | `blacklist-vk.txt` |
+| nginx | `blacklist.conf` | `rkn-collaborants.conf` | — |
+| ipset | `blacklist-v4.ipset` | `rkn-collaborants-v4.ipset` | `blacklist-vk-v4.ipset` |
+| nftables | `blacklist.nft` | `rkn-collaborants.nft` | `blacklist-vk.nft` |
+| routes | `blacklist-v4.routes` | `rkn-collaborants-v4.routes` | `blacklist-vk-v4.routes` |
+| Mihomo | `blacklist.yaml` | — | — |
 
-All formats are in `output/`, split into v4/v6 where applicable. VK-specific variants (`blacklist-vk-*`) are also generated for nftables, ipset, and routes.
+All formats are in `output/`, split into v4/v6 where applicable. Lists are independent — combine as needed (e.g. `nft -f blacklist.nft && nft -f rkn-collaborants.nft`).
 
 ## Usage
 
@@ -65,7 +69,7 @@ Retrieve networks announced by an AS number:
 
 ```bash
 uv run scripts/network_list_from_as.py AS47764
-uv run scripts/network_list_from_as.py -q config/asn_blacklist.txt
+uv run scripts/network_list_from_as.py -q config/rkn_collaborants.txt
 uv run scripts/network_list_from_as.py https://example.com/asns.txt
 echo "AS13238" | uv run scripts/network_list_from_as.py -q -
 ```
