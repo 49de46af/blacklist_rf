@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
-import os
 import subprocess
 import sys
+from pathlib import Path
 
-SCRIPTS_DIR = os.path.dirname(__file__)
+SCRIPTS_DIR = Path(__file__).resolve().parent
 
 STEPS = [
     ("Fetching RIPE data", "fetch_ripe_data.py"),
@@ -13,14 +13,14 @@ STEPS = [
 ]
 
 
-def main():
+def main() -> int:
     for label, script in STEPS:
-        path = os.path.join(SCRIPTS_DIR, script)
+        path = SCRIPTS_DIR / script
         print(f"\n{'='*60}")
         print(f"  {label}: {script}")
         print(f"{'='*60}\n")
 
-        result = subprocess.run([sys.executable, path])
+        result = subprocess.run([sys.executable, str(path)])
         if result.returncode != 0:
             print(f"\nError: {script} exited with code {result.returncode}", file=sys.stderr)
             return result.returncode

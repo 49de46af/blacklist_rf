@@ -3,32 +3,36 @@
 import argparse
 import gzip
 import json
-import os
 import sys
 import tempfile
-import urllib.request
+from pathlib import Path
 
-sys.path.insert(0, os.path.dirname(__file__))
+import requests
+
 from lib.ip_utils import range_to_cidrs
 
-PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
-DATA_DIR = os.path.join(PROJECT_ROOT, "data")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DATA_DIR = PROJECT_ROOT / "data"
 
 RIPE_DB_URL = "https://ftp.ripe.net/ripe/dbase/split/ripe.db.inetnum.gz"
 COUNTRY = "RU"
 
 
-def download_ripe_db(dest_path):
+def download_ripe_db(dest_path: str | Path) -> None:
     print(f"Downloading {RIPE_DB_URL}...")
-    urllib.request.urlretrieve(RIPE_DB_URL, dest_path)
+    response = requests.get(RIPE_DB_URL, stream=True, timeout=300)
+    response.raise_for_status()
+    with open(dest_path, "wb") as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            f.write(chunk)
     print(f"  Saved to {dest_path}")
 
 
-def parse_inetnum_file(filepath):
+def parse_inetnum_file(filepath: str | Path) -> list[dict]:
     records = []
     record = {}
 
-    opener = gzip.open if filepath.endswith(".gz") else open
+    opener = gzip.open if str(filepath).endswith(".gz") else open
 
     with opener(filepath, "rt", encoding="latin-1") as f:
         for line in f:
@@ -63,7 +67,7 @@ def parse_inetnum_file(filepath):
     return records
 
 
-def _normalize_record(record):
+def _normalize_record(record: dict) -> dict | None:
     if not record or not record.get("inetnum"):
         return None
     try:
@@ -73,7 +77,7 @@ def _normalize_record(record):
     return record
 
 
-def write_outputs(records, text_path, json_path):
+def write_outputs(records: list[dict], text_path: str | Path, json_path: str | Path) -> None:
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(records, f, indent=4, ensure_ascii=False)
 
@@ -86,28 +90,28 @@ def write_outputs(records, text_path, json_path):
     print(f"  {json_path}")
 
 
-def main():
+def main() -> int:
     parser = argparse.ArgumentParser(description="Parse RIPE DB for RU networks.")
     parser.add_argument("--input", help="Path to ripe.db.inetnum or .gz file (downloads if not provided)")
     args = parser.parse_args()
 
-    os.makedirs(DATA_DIR, exist_ok=True)
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     if args.input:
         db_path = args.input
     else:
-        db_path = os.path.join(tempfile.gettempdir(), "ripe.db.inetnum.gz")
+        db_path = Path(tempfile.gettempdir()) / "ripe.db.inetnum.gz"
         download_ripe_db(db_path)
 
     print("Parsing RIPE database...")
     records = parse_inetnum_file(db_path)
 
-    text_output = os.path.join(DATA_DIR, "ripe-ru-ipv4.txt")
-    json_output = os.path.join(DATA_DIR, "ripe-ru-ipv4.json")
+    text_output = DATA_DIR / "ripe-ru-ipv4.txt"
+    json_output = DATA_DIR / "ripe-ru-ipv4.json"
     write_outputs(records, text_output, json_output)
 
-    if not args.input and os.path.exists(db_path):
-        os.remove(db_path)
+    if not args.input and Path(db_path).exists():
+        Path(db_path).unlink()
 
     print("Done.")
     return 0

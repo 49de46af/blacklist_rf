@@ -1,8 +1,6 @@
 import os
-import sys
 import tempfile
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
 from check_nft_blacklist import parse_nft_config, check_ip_in_blacklist
 
 

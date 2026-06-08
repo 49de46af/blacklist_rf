@@ -1,25 +1,15 @@
-import os
 from datetime import datetime, UTC
-from ipaddress import ip_network, collapse_addresses
+from ipaddress import ip_network, collapse_addresses, IPv4Network, IPv6Network
+from pathlib import Path
+
+from lib.io_utils import read_prefixes
 
 
-def _timestamp():
+def _timestamp() -> str:
     return datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S UTC")
 
 
-def _read_prefixes(filepath):
-    prefixes = []
-    if not os.path.exists(filepath):
-        return prefixes
-    with open(filepath, encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if line and not line.startswith("#"):
-                prefixes.append(line)
-    return prefixes
-
-
-def _aggregate(prefixes):
+def _aggregate(prefixes: list[str]) -> list[IPv4Network | IPv6Network]:
     nets = []
     for p in prefixes:
         try:
@@ -29,28 +19,31 @@ def _aggregate(prefixes):
     return sorted(collapse_addresses(nets))
 
 
-def export_nginx(v4_file, v6_file, output_dir):
-    v4 = _read_prefixes(v4_file)
-    v6 = _read_prefixes(v6_file)
+def export_nginx(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path) -> None:
+    v4 = read_prefixes(v4_file)
+    v6 = read_prefixes(v6_file)
 
     def _write_nginx(prefixes, path, label):
+        path = Path(path)
         with open(path, "w", encoding="utf-8") as f:
             f.write(f"# Nginx blacklist configuration {label}\n")
             f.write(f"# Last updated: {_timestamp()}\n")
-            f.write("#\n# Usage: include /path/to/" + os.path.basename(path) + ";\n#\n\n")
+            f.write(f"#\n# Usage: include /path/to/{path.name};\n#\n\n")
             for p in prefixes:
                 f.write(f"deny {p};\n")
 
-    _write_nginx(v4 + v6, os.path.join(output_dir, "blacklist.conf"), "(mixed IPv4/IPv6)")
-    _write_nginx(v4, os.path.join(output_dir, "blacklist-v4.conf"), "(IPv4 only)")
-    _write_nginx(v6, os.path.join(output_dir, "blacklist-v6.conf"), "(IPv6 only)")
+    output_dir = Path(output_dir)
+    _write_nginx(v4 + v6, output_dir / "blacklist.conf", "(mixed IPv4/IPv6)")
+    _write_nginx(v4, output_dir / "blacklist-v4.conf", "(IPv4 only)")
+    _write_nginx(v6, output_dir / "blacklist-v6.conf", "(IPv6 only)")
 
 
-def export_ipset(v4_file, v6_file, output_dir, vk_v4_file=None, vk_v6_file=None):
-    v4 = _read_prefixes(v4_file)
-    v6 = _read_prefixes(v6_file)
+def export_ipset(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None) -> None:
+    v4 = read_prefixes(v4_file)
+    v6 = read_prefixes(v6_file)
 
     def _write_ipset(prefixes, path, set_name, family):
+        path = Path(path)
         count = len(prefixes)
         hashsize = max(count, 1024)
         maxelem = count * 2 if count else 2048
@@ -63,7 +56,7 @@ def export_ipset(v4_file, v6_file, output_dir, vk_v4_file=None, vk_v6_file=None)
             f.write("#\n")
             f.write(f"# Usage:\n")
             f.write(f"#   1. Load the ipset:\n")
-            f.write(f"#      ipset restore < {os.path.basename(path)}\n")
+            f.write(f"#      ipset restore < {path.name}\n")
             f.write("#\n")
             if is_vk:
                 f.write(f"#   2. Use with {iptcmd}:\n")
@@ -82,18 +75,20 @@ def export_ipset(v4_file, v6_file, output_dir, vk_v4_file=None, vk_v6_file=None)
             for p in prefixes:
                 f.write(f"add {set_name} {p}\n")
 
-    _write_ipset(v4, os.path.join(output_dir, "blacklist-v4.ipset"), "blacklist-v4", "inet")
-    _write_ipset(v6, os.path.join(output_dir, "blacklist-v6.ipset"), "blacklist-v6", "inet6")
+    output_dir = Path(output_dir)
+    _write_ipset(v4, output_dir / "blacklist-v4.ipset", "blacklist-v4", "inet")
+    _write_ipset(v6, output_dir / "blacklist-v6.ipset", "blacklist-v6", "inet6")
 
-    if vk_v4_file and os.path.exists(vk_v4_file):
-        vk_v4 = _read_prefixes(vk_v4_file)
-        _write_ipset(vk_v4, os.path.join(output_dir, "blacklist-vk-v4.ipset"), "blacklist-vk-v4", "inet")
-    if vk_v6_file and os.path.exists(vk_v6_file):
-        vk_v6 = _read_prefixes(vk_v6_file)
-        _write_ipset(vk_v6, os.path.join(output_dir, "blacklist-vk-v6.ipset"), "blacklist-vk-v6", "inet6")
+    if vk_v4_file and Path(vk_v4_file).exists():
+        vk_v4 = read_prefixes(vk_v4_file)
+        _write_ipset(vk_v4, output_dir / "blacklist-vk-v4.ipset", "blacklist-vk-v4", "inet")
+    if vk_v6_file and Path(vk_v6_file).exists():
+        vk_v6 = read_prefixes(vk_v6_file)
+        _write_ipset(vk_v6, output_dir / "blacklist-vk-v6.ipset", "blacklist-vk-v6", "inet6")
 
 
-def _write_nft(v4_nets, v6_nets, path, set_v4_name, set_v6_name, usage_profile="vm_input"):
+def _write_nft(v4_nets: list[str], v6_nets: list[str], path: str | Path, set_v4_name: str, set_v6_name: str, usage_profile: str = "vm_input") -> None:
+    path = Path(path)
     with open(path, "w", encoding="utf-8") as f:
         f.write(f"# nftables blacklist\n")
         f.write(f"# Generated: {_timestamp()}\n")
@@ -134,31 +129,32 @@ def _write_nft(v4_nets, v6_nets, path, set_v4_name, set_v6_name, usage_profile="
         f.write("    }\n\n")
 
         f.write("}\n")
-    os.chmod(path, 0o644)
+    path.chmod(0o644)
 
 
-def export_nftables(v4_file, v6_file, output_dir, vk_v4_file=None, vk_v6_file=None):
-    v4_raw = _read_prefixes(v4_file)
-    v6_raw = _read_prefixes(v6_file)
+def export_nftables(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None) -> None:
+    v4_raw = read_prefixes(v4_file)
+    v6_raw = read_prefixes(v6_file)
 
     v4_agg = _aggregate(v4_raw)
     v6_agg = _aggregate(v6_raw)
     v4_strs = [str(n) for n in v4_agg]
     v6_strs = [str(n) for n in v6_agg]
 
+    output_dir = Path(output_dir)
     for name, v4, v6 in [
         ("blacklist.nft", v4_strs, v6_strs),
         ("blacklist-v4.nft", v4_strs, []),
         ("blacklist-v6.nft", [], v6_strs),
     ]:
-        _write_nft(v4, v6, os.path.join(output_dir, name), "blacklist_v4", "blacklist_v6")
+        _write_nft(v4, v6, output_dir / name, "blacklist_v4", "blacklist_v6")
 
-    if vk_v4_file and os.path.exists(vk_v4_file):
-        vk_v4 = [str(n) for n in _aggregate(_read_prefixes(vk_v4_file))]
+    if vk_v4_file and Path(vk_v4_file).exists():
+        vk_v4 = [str(n) for n in _aggregate(read_prefixes(vk_v4_file))]
     else:
         vk_v4 = []
-    if vk_v6_file and os.path.exists(vk_v6_file):
-        vk_v6 = [str(n) for n in _aggregate(_read_prefixes(vk_v6_file))]
+    if vk_v6_file and Path(vk_v6_file).exists():
+        vk_v6 = [str(n) for n in _aggregate(read_prefixes(vk_v6_file))]
     else:
         vk_v6 = []
 
@@ -168,44 +164,46 @@ def export_nftables(v4_file, v6_file, output_dir, vk_v4_file=None, vk_v6_file=No
             ("blacklist-vk-v4.nft", vk_v4, []),
             ("blacklist-vk-v6.nft", [], vk_v6),
         ]:
-            _write_nft(v4, v6, os.path.join(output_dir, name),
+            _write_nft(v4, v6, output_dir / name,
                         "blacklist_vk_v4", "blacklist_vk_v6", "vk_forward")
 
 
-def export_routes(v4_file, v6_file, output_dir, vk_v4_file=None, vk_v6_file=None):
+def export_routes(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None) -> None:
     def _write_routes(prefixes, path, ipv6=False):
+        path = Path(path)
         with open(path, "w", encoding="utf-8") as f:
             label = "IPv6" if ipv6 else "IPv4"
             f.write(f"# Linux routes blackhole ({label})\n")
             f.write(f"# Last updated: {_timestamp()}\n")
-            f.write(f"#\n# Apply: sudo sh {os.path.basename(path)}\n#\n\n")
+            f.write(f"#\n# Apply: sudo sh {path.name}\n#\n\n")
             for p in prefixes:
                 if ipv6:
                     f.write(f"ip -6 route replace {p} via ::1 dev lo\n")
                 else:
                     f.write(f"ip route replace {p} via 127.0.0.1 dev lo onlink\n")
 
-    _write_routes(_read_prefixes(v4_file), os.path.join(output_dir, "blacklist-v4.routes"))
-    _write_routes(_read_prefixes(v6_file), os.path.join(output_dir, "blacklist-v6.routes"), ipv6=True)
+    output_dir = Path(output_dir)
+    _write_routes(read_prefixes(v4_file), output_dir / "blacklist-v4.routes")
+    _write_routes(read_prefixes(v6_file), output_dir / "blacklist-v6.routes", ipv6=True)
 
-    if vk_v4_file and os.path.exists(vk_v4_file):
-        _write_routes(_read_prefixes(vk_v4_file), os.path.join(output_dir, "blacklist-vk-v4.routes"))
-    if vk_v6_file and os.path.exists(vk_v6_file):
-        _write_routes(_read_prefixes(vk_v6_file), os.path.join(output_dir, "blacklist-vk-v6.routes"), ipv6=True)
+    if vk_v4_file and Path(vk_v4_file).exists():
+        _write_routes(read_prefixes(vk_v4_file), output_dir / "blacklist-vk-v4.routes")
+    if vk_v6_file and Path(vk_v6_file).exists():
+        _write_routes(read_prefixes(vk_v6_file), output_dir / "blacklist-vk-v6.routes", ipv6=True)
 
 
-def export_mihomo(v4_file, v6_file, output_dir):
-    v4 = _read_prefixes(v4_file)
-    v6 = _read_prefixes(v6_file)
+def export_mihomo(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path) -> None:
+    v4 = read_prefixes(v4_file)
+    v6 = read_prefixes(v6_file)
 
-    path = os.path.join(output_dir, "blacklist.yaml")
+    path = Path(output_dir) / "blacklist.yaml"
     with open(path, "w", encoding="utf-8") as f:
         f.write("payload:\n")
         for p in v4 + v6:
             f.write(f"  - '{p}'\n")
 
 
-def export_all(v4_file, v6_file, output_dir, vk_v4_file=None, vk_v6_file=None):
+def export_all(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None) -> None:
     export_nginx(v4_file, v6_file, output_dir)
     export_ipset(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file)
     export_nftables(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file)

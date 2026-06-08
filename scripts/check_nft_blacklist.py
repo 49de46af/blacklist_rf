@@ -3,10 +3,10 @@
 import argparse
 import re
 import sys
-from ipaddress import ip_address, ip_network
+from ipaddress import ip_address, ip_network, IPv4Network, IPv6Network
 
 
-def parse_nft_config(filepath):
+def parse_nft_config(filepath: str) -> tuple[list[IPv4Network], list[IPv6Network]]:
     if filepath == "-":
         content = sys.stdin.read()
     else:
@@ -44,7 +44,7 @@ def parse_nft_config(filepath):
     return v4_nets, v6_nets
 
 
-def check_ip_in_blacklist(ip_str, v4_nets, v6_nets):
+def check_ip_in_blacklist(ip_str: str, v4_nets: list[IPv4Network], v6_nets: list[IPv6Network]) -> bool:
     try:
         addr = ip_address(ip_str)
     except ValueError:
@@ -57,7 +57,7 @@ def check_ip_in_blacklist(ip_str, v4_nets, v6_nets):
     return False
 
 
-def main():
+def main() -> int:
     parser = argparse.ArgumentParser(
         description="Check if an IP address is in the nftables blacklist."
     )

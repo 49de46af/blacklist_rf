@@ -1,13 +1,15 @@
 import re
 import sys
 import urllib.request
+from collections.abc import Iterator
+from pathlib import Path
 
 
-def convert_github_url(url):
+def convert_github_url(url: str) -> str:
     return url.replace("https://github.com/", "https://raw.githubusercontent.com/").replace("/blob", "")
 
 
-def read_lines_from_source(source):
+def read_lines_from_source(source: str) -> list[str]:
     if source == "-":
         return [ln.rstrip("\n") for ln in sys.stdin]
 
@@ -18,10 +20,10 @@ def read_lines_from_source(source):
             return resp.read().decode("utf-8").splitlines()
 
     with open(source, "r", encoding="utf-8") as f:
-        return f.readlines()
+        return f.read().splitlines()
 
 
-def iter_netnames(lines):
+def iter_netnames(lines: list[str]) -> Iterator[str]:
     for line in lines:
         stripped = line.strip()
         if not stripped or stripped.startswith("#"):
@@ -30,3 +32,11 @@ def iter_netnames(lines):
             yield stripped.split(":", 1)[1].strip()
         else:
             yield stripped
+
+
+def read_prefixes(filepath: str | Path) -> list[str]:
+    path = Path(filepath)
+    if not path.exists():
+        return []
+    with open(path, encoding="utf-8") as f:
+        return [line for line in f.read().splitlines() if line and not line.startswith("#")]

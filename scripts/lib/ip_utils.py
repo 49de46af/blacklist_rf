@@ -1,18 +1,18 @@
 import ipaddress
 
 
-def range_to_cidrs(ip_range):
+def range_to_cidrs(ip_range: str) -> list[str]:
     start_ip, end_ip = ip_range.split(" - ")
-    start = ipaddress.IPv4Address(start_ip.strip())
-    end = ipaddress.IPv4Address(end_ip.strip())
+    start = ipaddress.ip_address(start_ip.strip())
+    end = ipaddress.ip_address(end_ip.strip())
     return [str(cidr) for cidr in ipaddress.summarize_address_range(start, end)]
 
 
-def is_ipv6(cidr):
+def is_ipv6(cidr: str) -> bool:
     return ":" in cidr
 
 
-def aggregate_prefixes(prefixes):
+def aggregate_prefixes(prefixes: list[str]) -> tuple[list[str], list[str]]:
     v4, v6 = [], []
     for p in prefixes:
         try:

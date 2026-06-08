@@ -2,15 +2,13 @@
 
 import argparse
 import sys
-import os
 
-sys.path.insert(0, os.path.dirname(__file__))
 from lib.io_utils import read_lines_from_source, iter_netnames
 from lib.ip_utils import range_to_cidrs
-from lib.whois_client import whois_query
+from lib.whois_client import whois_query_inetnums
 
 
-def main(argv=None):
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Retrieve networks by network name via WHOIS."
     )
@@ -31,8 +29,8 @@ def main(argv=None):
         return 1
 
     for netname in iter_netnames(lines):
-        inetnums = whois_query(netname, "inetnum")
-        if not inetnums or not isinstance(inetnums, list) or len(inetnums) == 0:
+        inetnums = whois_query_inetnums(netname)
+        if not inetnums:
             continue
 
         if not args.quiet:

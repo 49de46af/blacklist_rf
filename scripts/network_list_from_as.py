@@ -3,32 +3,30 @@
 import argparse
 import re
 import sys
-import os
 
-sys.path.insert(0, os.path.dirname(__file__))
 from lib.io_utils import read_lines_from_source
 from lib.ripe_api import get_announced_prefixes
-from lib.whois_client import whois_query
+from lib.whois_client import whois_query_name
 
 ASN_RE = re.compile(r"\bAS\d+\b", re.IGNORECASE)
 
 
-def normalize_asn(value):
+def normalize_asn(value: str) -> str | None:
     match = ASN_RE.search(value)
     if match:
         return match.group(0).upper()
     return None
 
 
-def print_prefixes(asn, quiet=False):
+def print_prefixes(asn: str, quiet: bool = False) -> None:
     normalized = normalize_asn(asn)
     if normalized is None:
         return
 
     if not quiet:
         print(f"# Networks announced by {normalized}")
-        response = whois_query(normalized, "as-name", get_org=True)
-        if response is not None and isinstance(response, str):
+        response = whois_query_name(normalized, "as-name", get_org=True)
+        if response is not None:
             print(f"# AS-Name (ORG): {response.strip()}")
 
     prefixes = get_announced_prefixes(normalized)
@@ -36,7 +34,7 @@ def print_prefixes(asn, quiet=False):
         print(prefix)
 
 
-def main(argv=None):
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Retrieve networks announced by an AS number."
     )

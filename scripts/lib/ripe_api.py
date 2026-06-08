@@ -4,7 +4,7 @@ RIPE_STAT_BASE = "https://stat.ripe.net/data"
 TIMEOUT = 120
 
 
-def get_country_resources(country="RU"):
+def get_country_resources(country: str = "RU") -> dict[str, list[str]]:
     url = f"{RIPE_STAT_BASE}/country-resource-list/data.json"
     params = {"resource": country, "v4_format": "prefix"}
     response = requests.get(url, params=params, timeout=TIMEOUT)
@@ -18,7 +18,7 @@ def get_country_resources(country="RU"):
     }
 
 
-def get_announced_prefixes(asn):
+def get_announced_prefixes(asn: str) -> list[str]:
     try:
         url = f"{RIPE_STAT_BASE}/announced-prefixes/data.json"
         params = {"resource": asn}

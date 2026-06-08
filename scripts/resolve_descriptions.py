@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
 import argparse
-import os
 import sys
+from pathlib import Path
 
-sys.path.insert(0, os.path.dirname(__file__))
-from lib.whois_client import whois_query
+from lib.whois_client import whois_query_name
 
-PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
-DATA_DIR = os.path.join(PROJECT_ROOT, "data")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DATA_DIR = PROJECT_ROOT / "data"
 
 DEFAULT_LIMIT = 2500
 
 
-def resolve_file(filepath, limit):
-    if not os.path.exists(filepath):
+def resolve_file(filepath: str | Path, limit: int) -> None:
+    filepath = Path(filepath)
+    if not filepath.exists():
         print(f"  Skipping {filepath} (not found)")
         return
 
@@ -35,11 +35,11 @@ def resolve_file(filepath, limit):
         entry = parts[0]
 
         if entry.upper().startswith("AS"):
-            response = whois_query(entry, "as-name", get_org=True)
+            response = whois_query_name(entry, "as-name", get_org=True)
         else:
-            response = whois_query(entry, "netname", get_org=True)
+            response = whois_query_name(entry, "netname", get_org=True)
 
-        if response is None or not isinstance(response, str):
+        if response is None:
             name = "-no-description-"
         else:
             name = response.strip()
@@ -55,7 +55,7 @@ def resolve_file(filepath, limit):
     print(f"  {filepath}: resolved {min(count, limit)} entries")
 
 
-def main():
+def main() -> int:
     parser = argparse.ArgumentParser(description="Resolve WHOIS descriptions for ASNs and networks.")
     parser.add_argument("--limit", type=int, default=DEFAULT_LIMIT,
                         help=f"Max WHOIS queries per file (default: {DEFAULT_LIMIT})")
@@ -67,9 +67,9 @@ def main():
         targets = args.files
     else:
         targets = [
-            os.path.join(DATA_DIR, "all-ru-asn.txt"),
-            os.path.join(DATA_DIR, "all-ru-ipv4.txt"),
-            os.path.join(DATA_DIR, "all-ru-ipv6.txt"),
+            DATA_DIR / "all-ru-asn.txt",
+            DATA_DIR / "all-ru-ipv4.txt",
+            DATA_DIR / "all-ru-ipv6.txt",
         ]
 
     print(f"Resolving descriptions (limit: {args.limit} per file)...")

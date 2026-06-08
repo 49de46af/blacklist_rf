@@ -4,14 +4,21 @@ WHOIS_SERVER = "whois.ripe.net"
 WHOIS_PORT = 43
 
 
-def whois_query(query, get_field="netname", get_org=False):
+def whois_query_inetnums(query: str) -> list[str]:
     try:
-        return _do_query(query, get_field, get_org)
+        return _do_query(query, "inetnum", False)  # type: ignore[return-value]
     except (socket.error, socket.timeout, OSError):
-        return [] if get_field == "inetnum" else None
+        return []
 
 
-def _do_query(query, get_field, get_org):
+def whois_query_name(query: str, field: str = "netname", get_org: bool = False) -> str | None:
+    try:
+        return _do_query(query, field, get_org)  # type: ignore[return-value]
+    except (socket.error, socket.timeout, OSError):
+        return None
+
+
+def _do_query(query: str, get_field: str, get_org: bool) -> list[str] | str:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(30)
     try:
