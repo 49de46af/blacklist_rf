@@ -1,9 +1,11 @@
 # Linux routes blackhole (IPv6)
-# Last updated: 2026-06-08 15:52:54 UTC
+# Last updated: 2026-06-08 16:28:05 UTC
 #
 # Apply: sudo sh blacklist-v6.routes
 #
 
-ip -6 route replace 2a00:bdc0:e002::/47 via ::1 dev lo
-ip -6 route replace 2a00:bdc0:e004::/47 via ::1 dev lo
+ip -6 route replace 2a00:bdc0:e002::/48 via ::1 dev lo
+ip -6 route replace 2a00:bdc0:e003::/48 via ::1 dev lo
+ip -6 route replace 2a00:bdc0:e004::/48 via ::1 dev lo
+ip -6 route replace 2a00:bdc0:e005::/48 via ::1 dev lo
 ip -6 route replace 2a00:bdc0:e007::/48 via ::1 dev lo

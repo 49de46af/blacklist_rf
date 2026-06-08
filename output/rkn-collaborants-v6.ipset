@@ -1,5 +1,5 @@
 # IPSet blacklist configuration
-# Last updated: 2026-06-08 15:52:54 UTC
+# Last updated: 2026-06-08 16:28:05 UTC
 #
 # Usage:
 #   1. Load the ipset:
@@ -14,35 +14,70 @@
 #      ipset destroy rkn-collaborants-v6
 #
 
-create rkn-collaborants-v6 hash:net family inet6 hashsize 1024 maxelem 62
+create rkn-collaborants-v6 hash:net family inet6 hashsize 1024 maxelem 132
 add rkn-collaborants-v6 2001:678:384::/48
 add rkn-collaborants-v6 2001:67c:28bc::/48
 add rkn-collaborants-v6 2a00:1148::/29
+add rkn-collaborants-v6 2a00:1148::/32
+add rkn-collaborants-v6 2a00:46e0:2::/48
 add rkn-collaborants-v6 2a00:46e0::/32
 add rkn-collaborants-v6 2a00:4c00:3::/48
 add rkn-collaborants-v6 2a00:5da0:8010::/48
 add rkn-collaborants-v6 2a00:b4c0::/32
-add rkn-collaborants-v6 2a00:bdc0::/33
 add rkn-collaborants-v6 2a00:bdc0:8000::/34
+add rkn-collaborants-v6 2a00:bdc0::/33
 add rkn-collaborants-v6 2a00:bdc0:c000::/35
-add rkn-collaborants-v6 2a00:bdc0:e002::/47
-add rkn-collaborants-v6 2a00:bdc0:e004::/47
+add rkn-collaborants-v6 2a00:bdc0:e002::/48
+add rkn-collaborants-v6 2a00:bdc0:e003::/48
+add rkn-collaborants-v6 2a00:bdc0:e004::/48
+add rkn-collaborants-v6 2a00:bdc0:e005::/48
 add rkn-collaborants-v6 2a00:bdc0:e007::/48
 add rkn-collaborants-v6 2a00:bdc0:f000::/36
 add rkn-collaborants-v6 2a00:bdc1::/32
 add rkn-collaborants-v6 2a00:bdc2::/31
 add rkn-collaborants-v6 2a00:bdc4::/30
+add rkn-collaborants-v6 2a02:6b8:20::/48
+add rkn-collaborants-v6 2a02:6b8:215::/48
+add rkn-collaborants-v6 2a02:6b8:21::/48
+add rkn-collaborants-v6 2a02:6b8:22::/48
+add rkn-collaborants-v6 2a02:6b8:23::/48
+add rkn-collaborants-v6 2a02:6b8:4::/48
+add rkn-collaborants-v6 2a02:6b8:5::/48
+add rkn-collaborants-v6 2a02:6b8:6::/48
+add rkn-collaborants-v6 2a02:6b8:8::/48
 add rkn-collaborants-v6 2a02:6b8::/29
-add rkn-collaborants-v6 2a03:720::/32
+add rkn-collaborants-v6 2a02:6b8::/32
+add rkn-collaborants-v6 2a02:6b8:a::/48
+add rkn-collaborants-v6 2a02:6b8:b::/48
+add rkn-collaborants-v6 2a02:6b8:c::/48
+add rkn-collaborants-v6 2a02:6b8:d::/48
+add rkn-collaborants-v6 2a02:6b8:e::/48
+add rkn-collaborants-v6 2a02:6bf:8000::/34
+add rkn-collaborants-v6 2a02:6bf:8000::/35
+add rkn-collaborants-v6 2a02:6bf:a000::/35
 add rkn-collaborants-v6 2a03:2980::/32
+add rkn-collaborants-v6 2a03:720:1060::/48
+add rkn-collaborants-v6 2a03:720:1070::/48
+add rkn-collaborants-v6 2a03:720:14::/48
+add rkn-collaborants-v6 2a03:720:40::/48
+add rkn-collaborants-v6 2a03:720:4::/48
+add rkn-collaborants-v6 2a03:720:5::/48
+add rkn-collaborants-v6 2a03:720:60::/48
+add rkn-collaborants-v6 2a03:720:70::/48
+add rkn-collaborants-v6 2a03:720:8::/48
+add rkn-collaborants-v6 2a03:720:9::/48
+add rkn-collaborants-v6 2a03:720::/32
 add rkn-collaborants-v6 2a07:a600::/29
 add rkn-collaborants-v6 2a07:aa40:20::/44
 add rkn-collaborants-v6 2a0b:1440::/32
 add rkn-collaborants-v6 2a0b:1447:20::/44
-add rkn-collaborants-v6 2a0d:d6c0::/31
-add rkn-collaborants-v6 2a0d:d6c7:14::/47
+add rkn-collaborants-v6 2a0d:d6c0::/32
+add rkn-collaborants-v6 2a0d:d6c1::/32
+add rkn-collaborants-v6 2a0d:d6c7:14::/48
+add rkn-collaborants-v6 2a0d:d6c7:15::/48
 add rkn-collaborants-v6 2a14:25c0::/32
 add rkn-collaborants-v6 2a14:25c5::/32
-add rkn-collaborants-v6 2a14:25c6::/31
+add rkn-collaborants-v6 2a14:25c6::/32
+add rkn-collaborants-v6 2a14:25c7::/32
 add rkn-collaborants-v6 2a14:48c5::/48
 add rkn-collaborants-v6 2a14:48c6::/48

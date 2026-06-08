@@ -1,5 +1,5 @@
 # IPSet blacklist configuration
-# Last updated: 2026-06-08 15:52:54 UTC
+# Last updated: 2026-06-08 16:28:05 UTC
 #
 # Usage:
 #   1. Load the ipset:
@@ -14,7 +14,9 @@
 #      ipset destroy blacklist-v6
 #
 
-create blacklist-v6 hash:net family inet6 hashsize 1024 maxelem 6
-add blacklist-v6 2a00:bdc0:e002::/47
-add blacklist-v6 2a00:bdc0:e004::/47
+create blacklist-v6 hash:net family inet6 hashsize 1024 maxelem 10
+add blacklist-v6 2a00:bdc0:e002::/48
+add blacklist-v6 2a00:bdc0:e003::/48
+add blacklist-v6 2a00:bdc0:e004::/48
+add blacklist-v6 2a00:bdc0:e005::/48
 add blacklist-v6 2a00:bdc0:e007::/48
