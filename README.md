@@ -92,8 +92,7 @@ Both tools support file paths, URLs (GitHub URLs are auto-converted to raw), and
 | Fetch RIPE data | 1st of month, 00:00 UTC | Fetch RU ASNs/prefixes |
 | Resolve descriptions | 1st of month, 02:00-07:00 UTC | Resolve descriptions via WHOIS |
 | Parse RIPE DB | Sunday, 12:00 UTC | Parse RIPE DB dump |
-| Update blacklists | daily, 06:00 UTC | Generate + export |
-| Update nftables | daily, 02:30 UTC | Update nft configs |
+| Update blacklists | daily, 06:00 UTC | Generate + export all formats |
 
 ## Tests
 
