@@ -12,6 +12,19 @@ def is_ipv6(cidr: str) -> bool:
     return ":" in cidr
 
 
+def deduplicate_prefixes(prefixes: list[str]) -> tuple[list[str], list[str]]:
+    v4, v6 = set(), set()
+    for p in prefixes:
+        p = p.strip()
+        if not p:
+            continue
+        if ":" in p:
+            v6.add(p)
+        else:
+            v4.add(p)
+    return sorted(v4), sorted(v6)
+
+
 def aggregate_prefixes(prefixes: list[str]) -> tuple[list[str], list[str]]:
     v4, v6 = [], []
     for p in prefixes:

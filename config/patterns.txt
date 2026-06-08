@@ -19,6 +19,3 @@ mail-ru
 mail_ru
 VK-AS
 M100
-ru-netbridge-19911202
-ru-netbridge-20061117
-odnoklassniki-front

@@ -7,7 +7,7 @@ from pathlib import Path
 from lib.io_utils import iter_netnames, read_prefixes
 from lib.ripe_api import get_announced_prefixes
 from lib.whois_client import whois_query_inetnums
-from lib.ip_utils import range_to_cidrs, aggregate_prefixes
+from lib.ip_utils import range_to_cidrs, deduplicate_prefixes
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CONFIG_DIR = PROJECT_ROOT / "config"
@@ -41,21 +41,28 @@ def load_data_file(filepath: str | Path) -> list[tuple[str, str]]:
     return entries
 
 
-def filter_by_patterns(entries: list[tuple[str, str]], patterns: list[str], exclude_patterns: list[str] | None = None) -> list[tuple[str, str]]:
+def filter_by_patterns(entries: list[tuple[str, str]], patterns: list[str], exclude_patterns: list[str] | None = None, exclude_fixed: bool = False) -> list[tuple[str, str]]:
     if not patterns:
         return []
     combined = "|".join(patterns)
     regex = re.compile(combined, re.IGNORECASE)
 
     exclude_regex = None
-    if exclude_patterns:
+    if exclude_patterns and not exclude_fixed:
         exclude_combined = "|".join(exclude_patterns)
         exclude_regex = re.compile(exclude_combined, re.IGNORECASE)
 
+    exclude_strings = None
+    if exclude_patterns and exclude_fixed:
+        exclude_strings = [p.lower() for p in exclude_patterns]
+
     result = []
     for entry, desc in entries:
-        if regex.search(desc):
-            if exclude_regex and exclude_regex.search(desc):
+        line = f"{entry} {desc}" if desc else entry
+        if regex.search(line):
+            if exclude_regex and exclude_regex.search(line):
+                continue
+            if exclude_strings and any(s in line.lower() for s in exclude_strings):
                 continue
             result.append((entry, desc))
     return result
@@ -146,8 +153,8 @@ def _build_main_blacklist() -> tuple[list[tuple[str, str]], list[tuple[str, str]
             f.write(line + "\n")
     print(f"  {commented_path} ({len(commented_lines)} lines)")
 
-    print("Aggregating and deduplicating...")
-    v4_list, v6_list = aggregate_prefixes(all_prefixes)
+    print("Deduplicating...")
+    v4_list, v6_list = deduplicate_prefixes(all_prefixes)
 
     blacklist_path = OUTPUT_DIR / "blacklist.txt"
     v4_path = OUTPUT_DIR / "blacklist-v4.txt"
@@ -199,7 +206,7 @@ def _build_rkn_collaborants() -> None:
         for line in commented_lines:
             f.write(line + "\n")
 
-    v4_list, v6_list = aggregate_prefixes(all_prefixes)
+    v4_list, v6_list = deduplicate_prefixes(all_prefixes)
 
     rkn_path = OUTPUT_DIR / "rkn-collaborants.txt"
     rkn_v4_path = OUTPUT_DIR / "rkn-collaborants-v4.txt"
@@ -231,9 +238,9 @@ def _build_vk_blacklist(ipv4_entries: list[tuple[str, str]], ripe_entries: list[
     ipv6_entries = load_data_file(DATA_DIR / "all-ru-ipv6.txt")
     vk_prefixes = []
     for source in [ipv4_entries, ipv6_entries, ripe_entries]:
-        vk_prefixes.extend(e for e, _ in filter_by_patterns(source, vk_patterns, vk_exclude))
+        vk_prefixes.extend(e for e, _ in filter_by_patterns(source, vk_patterns, vk_exclude, exclude_fixed=True))
 
-    vk_v4, vk_v6 = aggregate_prefixes(vk_prefixes)
+    vk_v4, vk_v6 = deduplicate_prefixes(vk_prefixes)
 
     vk_path = OUTPUT_DIR / "blacklist-vk.txt"
     vk_v4_path = OUTPUT_DIR / "blacklist-vk-v4.txt"
