@@ -166,3 +166,34 @@ def test_export_routes_rkn():
         with open(os.path.join(tmpdir, "rkn-collaborants-v6.routes")) as f:
             content = f.read()
         assert "ip -6 route replace 2001:db8:1::/48 via ::1 dev lo" in content
+
+
+def test_export_mihomo_vk():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        v4, v6 = _create_prefix_files(tmpdir)
+        vk_v4 = os.path.join(tmpdir, "vk-v4.txt")
+        vk_v6 = os.path.join(tmpdir, "vk-v6.txt")
+        with open(vk_v4, "w") as f:
+            f.write("10.10.0.0/16\n")
+        with open(vk_v6, "w") as f:
+            f.write("2001:db8:2::/48\n")
+        export_mihomo(v4, v6, tmpdir, vk_v4, vk_v6)
+
+        with open(os.path.join(tmpdir, "blacklist-vk.yaml")) as f:
+            content = f.read()
+        assert "payload:" in content
+        assert "'10.10.0.0/16'" in content
+        assert "'2001:db8:2::/48'" in content
+
+
+def test_export_mihomo_rkn():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        v4, v6 = _create_prefix_files(tmpdir)
+        rkn_v4, rkn_v6 = _create_rkn_files(tmpdir)
+        export_mihomo(v4, v6, tmpdir, rkn_v4_file=rkn_v4, rkn_v6_file=rkn_v6)
+
+        with open(os.path.join(tmpdir, "rkn-collaborants.yaml")) as f:
+            content = f.read()
+        assert "payload:" in content
+        assert "'172.16.0.0/16'" in content
+        assert "'2001:db8:1::/48'" in content

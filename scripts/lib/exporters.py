@@ -236,15 +236,43 @@ def export_routes(v4_file: str | Path, v6_file: str | Path, output_dir: str | Pa
         _write_routes(read_prefixes(rkn_v6_file), output_dir / "rkn-collaborants-v6.routes", ipv6=True)
 
 
-def export_mihomo(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path) -> None:
+def export_mihomo(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None, rkn_v4_file: str | Path | None = None, rkn_v6_file: str | Path | None = None) -> None:
     v4 = read_prefixes(v4_file)
     v6 = read_prefixes(v6_file)
 
-    path = Path(output_dir) / "blacklist.yaml"
-    with open(path, "w", encoding="utf-8") as f:
-        f.write("payload:\n")
-        for p in v4 + v6:
-            f.write(f"  - '{p}'\n")
+    def _write_mihomo(prefixes, path):
+        path = Path(path)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write("payload:\n")
+            for p in prefixes:
+                f.write(f"  - '{p}'\n")
+
+    output_dir = Path(output_dir)
+    _write_mihomo(v4 + v6, output_dir / "blacklist.yaml")
+
+    if vk_v4_file and Path(vk_v4_file).exists():
+        vk_v4 = read_prefixes(vk_v4_file)
+    else:
+        vk_v4 = []
+    if vk_v6_file and Path(vk_v6_file).exists():
+        vk_v6 = read_prefixes(vk_v6_file)
+    else:
+        vk_v6 = []
+
+    if vk_v4 or vk_v6:
+        _write_mihomo(vk_v4 + vk_v6, output_dir / "blacklist-vk.yaml")
+
+    if rkn_v4_file and Path(rkn_v4_file).exists():
+        rkn_v4 = read_prefixes(rkn_v4_file)
+    else:
+        rkn_v4 = []
+    if rkn_v6_file and Path(rkn_v6_file).exists():
+        rkn_v6 = read_prefixes(rkn_v6_file)
+    else:
+        rkn_v6 = []
+
+    if rkn_v4 or rkn_v6:
+        _write_mihomo(rkn_v4 + rkn_v6, output_dir / "rkn-collaborants.yaml")
 
 
 def export_all(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path, vk_v4_file: str | Path | None = None, vk_v6_file: str | Path | None = None, rkn_v4_file: str | Path | None = None, rkn_v6_file: str | Path | None = None) -> None:
@@ -252,4 +280,4 @@ def export_all(v4_file: str | Path, v6_file: str | Path, output_dir: str | Path,
     export_ipset(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file, rkn_v4_file, rkn_v6_file)
     export_nftables(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file, rkn_v4_file, rkn_v6_file)
     export_routes(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file, rkn_v4_file, rkn_v6_file)
-    export_mihomo(v4_file, v6_file, output_dir)
+    export_mihomo(v4_file, v6_file, output_dir, vk_v4_file, vk_v6_file, rkn_v4_file, rkn_v6_file)

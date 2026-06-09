@@ -38,7 +38,7 @@ Additionally, netnames from `config/netnames.txt` are resolved via WHOIS.
 | ipset | `blacklist-v4.ipset` | `rkn-collaborants-v4.ipset` | `blacklist-vk-v4.ipset` |
 | nftables | `blacklist.nft` | `rkn-collaborants.nft` | `blacklist-vk.nft` |
 | routes | `blacklist-v4.routes` | `rkn-collaborants-v4.routes` | `blacklist-vk-v4.routes` |
-| Mihomo | `blacklist.yaml` | — | — |
+| Mihomo | `blacklist.yaml` | `rkn-collaborants.yaml` | `blacklist-vk.yaml` |
 
 All formats are in `output/`, split into v4/v6 where applicable. Lists are independent — combine as needed (e.g. `nft -f blacklist.nft && nft -f rkn-collaborants.nft`).
 
