@@ -1,5 +1,5 @@
 # IPSet blacklist configuration
-# Last updated: 2026-06-23 16:13:13 UTC
+# Last updated: 2026-06-24 13:57:25 UTC
 #
 # Usage:
 #   1. Load the ipset:
@@ -14,16 +14,11 @@
 #      ipset destroy rkn-collaborants-v6
 #
 
-create rkn-collaborants-v6 hash:net family inet6 hashsize 1024 maxelem 132
+create rkn-collaborants-v6 hash:net family inet6 hashsize 1024 maxelem 118
 add rkn-collaborants-v6 2001:678:384::/48
 add rkn-collaborants-v6 2001:67c:28bc::/48
-add rkn-collaborants-v6 2a00:1148::/29
-add rkn-collaborants-v6 2a00:1148::/32
-add rkn-collaborants-v6 2a00:46e0:2::/48
-add rkn-collaborants-v6 2a00:46e0::/32
 add rkn-collaborants-v6 2a00:4c00:3::/48
 add rkn-collaborants-v6 2a00:5da0:8010::/48
-add rkn-collaborants-v6 2a00:b4c0::/32
 add rkn-collaborants-v6 2a00:bdc0:8000::/34
 add rkn-collaborants-v6 2a00:bdc0::/33
 add rkn-collaborants-v6 2a00:bdc0:c000::/35
@@ -75,9 +70,7 @@ add rkn-collaborants-v6 2a0d:d6c0::/32
 add rkn-collaborants-v6 2a0d:d6c1::/32
 add rkn-collaborants-v6 2a0d:d6c7:14::/48
 add rkn-collaborants-v6 2a0d:d6c7:15::/48
-add rkn-collaborants-v6 2a14:25c0::/32
 add rkn-collaborants-v6 2a14:25c5::/32
-add rkn-collaborants-v6 2a14:25c6::/32
 add rkn-collaborants-v6 2a14:25c7::/32
 add rkn-collaborants-v6 2a14:48c5::/48
 add rkn-collaborants-v6 2a14:48c6::/48
