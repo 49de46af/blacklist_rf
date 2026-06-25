@@ -1,13 +1,18 @@
 # Linux routes blackhole (IPv6)
-# Last updated: 2026-06-24 13:57:25 UTC
+# Last updated: 2026-06-25 13:41:34 UTC
 #
 # Apply: sudo sh rkn-collaborants-v6.routes
 #
 
 ip -6 route replace 2001:678:384::/48 via ::1 dev lo
 ip -6 route replace 2001:67c:28bc::/48 via ::1 dev lo
+ip -6 route replace 2a00:1148::/29 via ::1 dev lo
+ip -6 route replace 2a00:1148::/32 via ::1 dev lo
+ip -6 route replace 2a00:46e0:2::/48 via ::1 dev lo
+ip -6 route replace 2a00:46e0::/32 via ::1 dev lo
 ip -6 route replace 2a00:4c00:3::/48 via ::1 dev lo
 ip -6 route replace 2a00:5da0:8010::/48 via ::1 dev lo
+ip -6 route replace 2a00:b4c0::/32 via ::1 dev lo
 ip -6 route replace 2a00:bdc0:8000::/34 via ::1 dev lo
 ip -6 route replace 2a00:bdc0::/33 via ::1 dev lo
 ip -6 route replace 2a00:bdc0:c000::/35 via ::1 dev lo
@@ -38,7 +43,11 @@ ip -6 route replace 2a02:6b8:d::/48 via ::1 dev lo
 ip -6 route replace 2a02:6b8:e::/48 via ::1 dev lo
 ip -6 route replace 2a02:6bf:8000::/34 via ::1 dev lo
 ip -6 route replace 2a02:6bf:8000::/35 via ::1 dev lo
+ip -6 route replace 2a02:6bf:8005::/48 via ::1 dev lo
+ip -6 route replace 2a02:6bf:8006::/48 via ::1 dev lo
 ip -6 route replace 2a02:6bf:a000::/35 via ::1 dev lo
+ip -6 route replace 2a02:6bf:a005::/48 via ::1 dev lo
+ip -6 route replace 2a02:6bf:a008::/48 via ::1 dev lo
 ip -6 route replace 2a03:2980::/32 via ::1 dev lo
 ip -6 route replace 2a03:720:1060::/48 via ::1 dev lo
 ip -6 route replace 2a03:720:1070::/48 via ::1 dev lo
@@ -59,7 +68,9 @@ ip -6 route replace 2a0d:d6c0::/32 via ::1 dev lo
 ip -6 route replace 2a0d:d6c1::/32 via ::1 dev lo
 ip -6 route replace 2a0d:d6c7:14::/48 via ::1 dev lo
 ip -6 route replace 2a0d:d6c7:15::/48 via ::1 dev lo
+ip -6 route replace 2a14:25c0::/32 via ::1 dev lo
 ip -6 route replace 2a14:25c5::/32 via ::1 dev lo
+ip -6 route replace 2a14:25c6::/32 via ::1 dev lo
 ip -6 route replace 2a14:25c7::/32 via ::1 dev lo
 ip -6 route replace 2a14:48c5::/48 via ::1 dev lo
 ip -6 route replace 2a14:48c6::/48 via ::1 dev lo
