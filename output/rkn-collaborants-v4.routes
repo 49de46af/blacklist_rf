@@ -1,5 +1,5 @@
 # Linux routes blackhole (IPv4)
-# Last updated: 2026-07-24 08:16:31 UTC
+# Last updated: 2026-07-25 07:58:48 UTC
 #
 # Apply: sudo sh rkn-collaborants-v4.routes
 #
@@ -8,6 +8,7 @@ ip route replace 103.76.52.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 109.120.180.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 109.120.188.0/22 via 127.0.0.1 dev lo onlink
 ip route replace 109.172.74.0/24 via 127.0.0.1 dev lo onlink
+ip route replace 109.207.0.0/20 via 127.0.0.1 dev lo onlink
 ip route replace 109.207.1.0/24 via 127.0.0.1 dev lo onlink
 ip route replace 109.207.10.0/23 via 127.0.0.1 dev lo onlink
 ip route replace 109.207.2.0/24 via 127.0.0.1 dev lo onlink
