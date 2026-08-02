@@ -1,6 +1,6 @@
 # nftables blacklist
-# Generated: 2026-08-01 08:12:13 UTC
-# IPv4: 0, IPv6: 0
+# Generated: 2026-08-02 08:13:36 UTC
+# IPv4: 0, IPv6: 3
 #
 # Usage: sudo nft -f <this-file>
 #   # VK egress blocking for VPN clients via NAT/FORWARD
@@ -19,6 +19,11 @@ table inet filter {
     set blacklist_vk_v6 {
         type ipv6_addr
         flags interval
+        elements = {
+            2a00:1148::/29,
+            2a00:b4c0::/29,
+            2a00:bdc0::/29
+        }
     }
 
 }

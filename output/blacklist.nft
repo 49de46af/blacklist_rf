@@ -1,6 +1,6 @@
 # nftables blacklist
-# Generated: 2026-08-01 08:12:13 UTC
-# IPv4: 779, IPv6: 0
+# Generated: 2026-08-02 08:13:36 UTC
+# IPv4: 779, IPv6: 3
 #
 # Usage: sudo nft -f <this-file>
 #   sudo nft add chain inet filter input '{ type filter hook input priority 0; policy accept; }'
@@ -799,6 +799,11 @@ table inet filter {
     set blacklist_v6 {
         type ipv6_addr
         flags interval
+        elements = {
+            2a00:bdc0:e002::/47,
+            2a00:bdc0:e004::/47,
+            2a00:bdc0:e007::/48
+        }
     }
 
 }
