@@ -1,6 +1,6 @@
 # nftables blacklist
-# Generated: 2026-08-07 07:07:00 UTC
-# IPv4: 310, IPv6: 0
+# Generated: 2026-08-08 06:42:05 UTC
+# IPv4: 309, IPv6: 0
 #
 # Usage: sudo nft -f <this-file>
 #   sudo nft add chain inet filter input '{ type filter hook input priority 0; policy accept; }'
@@ -108,7 +108,6 @@ table inet filter {
             89.208.228.0/22,
             89.221.228.0/22,
             89.221.232.0/21,
-            89.223.6.0/23,
             89.223.9.0/24,
             89.223.20.0/24,
             89.232.188.0/23,
