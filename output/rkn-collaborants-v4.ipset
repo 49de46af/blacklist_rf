@@ -1,5 +1,5 @@
 # IPSet blacklist configuration
-# Last updated: 2026-09-02 10:25:49 UTC
+# Last updated: 2026-09-03 10:34:03 UTC
 #
 # Usage:
 #   1. Load the ipset:
@@ -351,6 +351,7 @@ add rkn-collaborants-v4 5.181.60.0/22
 add rkn-collaborants-v4 5.181.61.0/24
 add rkn-collaborants-v4 5.181.63.0/24
 add rkn-collaborants-v4 5.188.140.0/22
+add rkn-collaborants-v4 5.189.216.0/24
 add rkn-collaborants-v4 5.255.192.0/18
 add rkn-collaborants-v4 5.255.197.0/24
 add rkn-collaborants-v4 5.255.205.0/24
@@ -411,7 +412,6 @@ add rkn-collaborants-v4 80.66.92.0/22
 add rkn-collaborants-v4 81.195.151.0/24
 add rkn-collaborants-v4 81.195.164.0/24
 add rkn-collaborants-v4 81.26.176.0/20
-add rkn-collaborants-v4 81.30.112.0/21
 add rkn-collaborants-v4 81.30.127.0/24
 add rkn-collaborants-v4 83.166.232.0/21
 add rkn-collaborants-v4 83.166.248.0/21
