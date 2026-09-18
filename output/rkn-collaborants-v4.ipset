@@ -1,5 +1,5 @@
 # IPSet blacklist configuration
-# Last updated: 2026-09-17 10:52:40 UTC
+# Last updated: 2026-09-18 10:25:48 UTC
 #
 # Usage:
 #   1. Load the ipset:
@@ -14,7 +14,7 @@
 #      ipset destroy rkn-collaborants-v4
 #
 
-create rkn-collaborants-v4 hash:net family inet hashsize 1024 maxelem 1130
+create rkn-collaborants-v4 hash:net family inet hashsize 1024 maxelem 1162
 add rkn-collaborants-v4 103.76.52.0/22
 add rkn-collaborants-v4 109.120.180.0/22
 add rkn-collaborants-v4 109.120.188.0/22
@@ -158,6 +158,11 @@ add rkn-collaborants-v4 185.33.244.0/24
 add rkn-collaborants-v4 185.33.246.0/24
 add rkn-collaborants-v4 185.47.167.0/24
 add rkn-collaborants-v4 185.5.136.0/22
+add rkn-collaborants-v4 185.52.72.0/22
+add rkn-collaborants-v4 185.52.72.0/24
+add rkn-collaborants-v4 185.52.73.0/24
+add rkn-collaborants-v4 185.52.74.0/24
+add rkn-collaborants-v4 185.52.75.0/24
 add rkn-collaborants-v4 185.6.244.0/22
 add rkn-collaborants-v4 185.62.100.0/24
 add rkn-collaborants-v4 185.62.200.0/23
@@ -195,6 +200,7 @@ add rkn-collaborants-v4 193.164.146.0/24
 add rkn-collaborants-v4 193.169.248.0/24
 add rkn-collaborants-v4 193.169.249.0/24
 add rkn-collaborants-v4 193.203.40.0/22
+add rkn-collaborants-v4 193.222.191.0/24
 add rkn-collaborants-v4 193.232.169.0/24
 add rkn-collaborants-v4 193.232.22.0/24
 add rkn-collaborants-v4 193.32.216.0/22
@@ -466,6 +472,7 @@ add rkn-collaborants-v4 89.221.234.0/24
 add rkn-collaborants-v4 89.221.235.0/24
 add rkn-collaborants-v4 89.221.236.0/22
 add rkn-collaborants-v4 89.223.20.0/24
+add rkn-collaborants-v4 89.223.6.0/23
 add rkn-collaborants-v4 89.223.9.0/24
 add rkn-collaborants-v4 89.232.188.0/24
 add rkn-collaborants-v4 89.232.189.0/24
@@ -528,6 +535,15 @@ add rkn-collaborants-v4 92.255.16.0/24
 add rkn-collaborants-v4 92.255.3.0/24
 add rkn-collaborants-v4 92.255.58.0/23
 add rkn-collaborants-v4 92.38.217.0/24
+add rkn-collaborants-v4 92.42.160.0/21
+add rkn-collaborants-v4 92.42.160.0/24
+add rkn-collaborants-v4 92.42.161.0/24
+add rkn-collaborants-v4 92.42.162.0/24
+add rkn-collaborants-v4 92.42.163.0/24
+add rkn-collaborants-v4 92.42.164.0/24
+add rkn-collaborants-v4 92.42.165.0/24
+add rkn-collaborants-v4 92.42.166.0/24
+add rkn-collaborants-v4 92.42.167.0/24
 add rkn-collaborants-v4 93.158.128.0/18
 add rkn-collaborants-v4 93.158.144.0/22
 add rkn-collaborants-v4 93.158.168.0/22
