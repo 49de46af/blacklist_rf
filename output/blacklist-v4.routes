@@ -1,5 +1,5 @@
 # Linux routes blackhole (IPv4)
-# Last updated: 2026-10-04 11:41:47 UTC
+# Last updated: 2026-10-05 13:21:38 UTC
 #
 # Apply: sudo sh blacklist-v4.routes
 #
@@ -1052,7 +1052,6 @@ ip route replace 95.167.114.48/30 via 127.0.0.1 dev lo onlink
 ip route replace 95.167.121.68/30 via 127.0.0.1 dev lo onlink
 ip route replace 95.167.122.128/28 via 127.0.0.1 dev lo onlink
 ip route replace 95.167.142.32/30 via 127.0.0.1 dev lo onlink
-ip route replace 95.167.157.156/30 via 127.0.0.1 dev lo onlink
 ip route replace 95.167.162.236/30 via 127.0.0.1 dev lo onlink
 ip route replace 95.167.162.76/30 via 127.0.0.1 dev lo onlink
 ip route replace 95.167.176.0/23 via 127.0.0.1 dev lo onlink
