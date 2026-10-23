@@ -1,5 +1,5 @@
 # Linux routes blackhole (IPv6)
-# Last updated: 2026-10-22 10:59:53 UTC
+# Last updated: 2026-10-23 10:54:13 UTC
 #
 # Apply: sudo sh rkn-collaborants-v6.routes
 #
@@ -45,7 +45,6 @@ ip -6 route replace 2a02:6bf:8000::/34 via ::1 dev lo
 ip -6 route replace 2a02:6bf:8000::/35 via ::1 dev lo
 ip -6 route replace 2a02:6bf:8005::/48 via ::1 dev lo
 ip -6 route replace 2a02:6bf:8006::/48 via ::1 dev lo
-ip -6 route replace 2a02:6bf:80b0::/48 via ::1 dev lo
 ip -6 route replace 2a02:6bf:a000::/35 via ::1 dev lo
 ip -6 route replace 2a02:6bf:a005::/48 via ::1 dev lo
 ip -6 route replace 2a02:6bf:a008::/48 via ::1 dev lo
