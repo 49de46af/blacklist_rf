@@ -1,5 +1,5 @@
 # IPSet blacklist configuration
-# Last updated: 2026-10-31 11:34:57 UTC
+# Last updated: 2026-11-01 12:33:34 UTC
 #
 # Usage:
 #   1. Load the ipset:
@@ -14,7 +14,7 @@
 #      ipset destroy rkn-collaborants-v4
 #
 
-create rkn-collaborants-v4 hash:net family inet hashsize 1024 maxelem 1158
+create rkn-collaborants-v4 hash:net family inet hashsize 1024 maxelem 1156
 add rkn-collaborants-v4 103.76.52.0/22
 add rkn-collaborants-v4 109.120.180.0/22
 add rkn-collaborants-v4 109.120.188.0/22
@@ -204,6 +204,7 @@ add rkn-collaborants-v4 193.169.249.0/24
 add rkn-collaborants-v4 193.203.40.0/22
 add rkn-collaborants-v4 193.222.191.0/24
 add rkn-collaborants-v4 193.232.169.0/24
+add rkn-collaborants-v4 193.232.22.0/24
 add rkn-collaborants-v4 193.32.216.0/22
 add rkn-collaborants-v4 193.32.216.0/24
 add rkn-collaborants-v4 193.33.230.0/23
@@ -234,7 +235,6 @@ add rkn-collaborants-v4 195.209.134.0/24
 add rkn-collaborants-v4 195.209.181.0/24
 add rkn-collaborants-v4 195.209.99.0/24
 add rkn-collaborants-v4 195.211.20.0/22
-add rkn-collaborants-v4 195.211.22.0/24
 add rkn-collaborants-v4 195.218.190.0/23
 add rkn-collaborants-v4 195.226.203.0/24
 add rkn-collaborants-v4 195.239.64.0/24
@@ -436,7 +436,6 @@ add rkn-collaborants-v4 84.252.160.0/20
 add rkn-collaborants-v4 84.252.160.0/24
 add rkn-collaborants-v4 85.112.98.0/24
 add rkn-collaborants-v4 85.142.115.0/24
-add rkn-collaborants-v4 85.142.251.0/24
 add rkn-collaborants-v4 85.158.185.0/24
 add rkn-collaborants-v4 85.192.32.0/22
 add rkn-collaborants-v4 85.198.107.0/24
