@@ -1,13 +1,16 @@
 # Linux routes blackhole (IPv6)
-# Last updated: 2026-11-16 16:43:46 UTC
+# Last updated: 2026-11-17 15:23:21 UTC
 #
 # Apply: sudo sh rkn-collaborants-v6.routes
 #
 
+ip -6 route replace 2001:678:384::/48 via ::1 dev lo
 ip -6 route replace 2001:67c:28bc::/48 via ::1 dev lo
 ip -6 route replace 2a00:1148::/29 via ::1 dev lo
 ip -6 route replace 2a00:1148::/32 via ::1 dev lo
 ip -6 route replace 2a00:46e0:2::/48 via ::1 dev lo
+ip -6 route replace 2a00:4c00:3::/48 via ::1 dev lo
+ip -6 route replace 2a00:5da0:8010::/48 via ::1 dev lo
 ip -6 route replace 2a00:b4c0::/32 via ::1 dev lo
 ip -6 route replace 2a00:bdc0:8000::/34 via ::1 dev lo
 ip -6 route replace 2a00:bdc0::/33 via ::1 dev lo
@@ -21,7 +24,23 @@ ip -6 route replace 2a00:bdc0:f000::/36 via ::1 dev lo
 ip -6 route replace 2a00:bdc1::/32 via ::1 dev lo
 ip -6 route replace 2a00:bdc2::/31 via ::1 dev lo
 ip -6 route replace 2a00:bdc4::/30 via ::1 dev lo
+ip -6 route replace 2a02:6b8:20::/48 via ::1 dev lo
 ip -6 route replace 2a02:6b8:215::/48 via ::1 dev lo
+ip -6 route replace 2a02:6b8:21::/48 via ::1 dev lo
+ip -6 route replace 2a02:6b8:22::/48 via ::1 dev lo
+ip -6 route replace 2a02:6b8:23::/48 via ::1 dev lo
+ip -6 route replace 2a02:6b8:24::/48 via ::1 dev lo
+ip -6 route replace 2a02:6b8:4::/48 via ::1 dev lo
+ip -6 route replace 2a02:6b8:5::/48 via ::1 dev lo
+ip -6 route replace 2a02:6b8:6::/48 via ::1 dev lo
+ip -6 route replace 2a02:6b8:8::/48 via ::1 dev lo
+ip -6 route replace 2a02:6b8::/29 via ::1 dev lo
+ip -6 route replace 2a02:6b8::/32 via ::1 dev lo
+ip -6 route replace 2a02:6b8:a::/48 via ::1 dev lo
+ip -6 route replace 2a02:6b8:b::/48 via ::1 dev lo
+ip -6 route replace 2a02:6b8:c::/48 via ::1 dev lo
+ip -6 route replace 2a02:6b8:d::/48 via ::1 dev lo
+ip -6 route replace 2a02:6b8:e::/48 via ::1 dev lo
 ip -6 route replace 2a02:6bf:8000::/34 via ::1 dev lo
 ip -6 route replace 2a02:6bf:8000::/35 via ::1 dev lo
 ip -6 route replace 2a02:6bf:8005::/48 via ::1 dev lo
@@ -32,13 +51,22 @@ ip -6 route replace 2a02:6bf:a005::/48 via ::1 dev lo
 ip -6 route replace 2a02:6bf:a008::/48 via ::1 dev lo
 ip -6 route replace 2a03:2980::/32 via ::1 dev lo
 ip -6 route replace 2a03:720:1060::/48 via ::1 dev lo
+ip -6 route replace 2a03:720:1070::/48 via ::1 dev lo
 ip -6 route replace 2a03:720:14::/48 via ::1 dev lo
+ip -6 route replace 2a03:720:40::/48 via ::1 dev lo
 ip -6 route replace 2a03:720:4::/48 via ::1 dev lo
+ip -6 route replace 2a03:720:5::/48 via ::1 dev lo
 ip -6 route replace 2a03:720:60::/48 via ::1 dev lo
+ip -6 route replace 2a03:720:70::/48 via ::1 dev lo
 ip -6 route replace 2a03:720:8::/48 via ::1 dev lo
 ip -6 route replace 2a03:720:9::/48 via ::1 dev lo
 ip -6 route replace 2a03:720::/32 via ::1 dev lo
 ip -6 route replace 2a07:a600::/29 via ::1 dev lo
+ip -6 route replace 2a07:aa40:20::/44 via ::1 dev lo
+ip -6 route replace 2a0b:1440::/32 via ::1 dev lo
+ip -6 route replace 2a0b:1447:20::/44 via ::1 dev lo
+ip -6 route replace 2a0d:d6c0::/32 via ::1 dev lo
+ip -6 route replace 2a0d:d6c1::/32 via ::1 dev lo
 ip -6 route replace 2a0d:d6c7:10::/48 via ::1 dev lo
 ip -6 route replace 2a0d:d6c7:11::/48 via ::1 dev lo
 ip -6 route replace 2a0d:d6c7:14::/48 via ::1 dev lo
@@ -47,4 +75,5 @@ ip -6 route replace 2a14:25c0::/32 via ::1 dev lo
 ip -6 route replace 2a14:25c5::/32 via ::1 dev lo
 ip -6 route replace 2a14:25c6::/32 via ::1 dev lo
 ip -6 route replace 2a14:25c7::/32 via ::1 dev lo
+ip -6 route replace 2a14:48c5::/48 via ::1 dev lo
 ip -6 route replace 2a14:48c6::/48 via ::1 dev lo
