@@ -1,5 +1,5 @@
 # IPSet blacklist configuration
-# Last updated: 2026-11-20 14:48:05 UTC
+# Last updated: 2026-11-21 14:03:46 UTC
 #
 # Usage:
 #   1. Load the ipset:
@@ -14,7 +14,7 @@
 #      ipset destroy rkn-collaborants-v4
 #
 
-create rkn-collaborants-v4 hash:net family inet hashsize 1024 maxelem 1108
+create rkn-collaborants-v4 hash:net family inet hashsize 1024 maxelem 1166
 add rkn-collaborants-v4 103.76.52.0/22
 add rkn-collaborants-v4 109.120.180.0/22
 add rkn-collaborants-v4 109.120.188.0/22
@@ -35,6 +35,8 @@ add rkn-collaborants-v4 130.49.224.0/19
 add rkn-collaborants-v4 138.16.192.0/20
 add rkn-collaborants-v4 138.16.240.0/20
 add rkn-collaborants-v4 138.16.240.0/24
+add rkn-collaborants-v4 141.8.128.0/18
+add rkn-collaborants-v4 141.8.134.0/24
 add rkn-collaborants-v4 146.185.208.0/22
 add rkn-collaborants-v4 146.185.240.0/22
 add rkn-collaborants-v4 153.51.160.0/19
@@ -80,6 +82,9 @@ add rkn-collaborants-v4 176.123.176.0/22
 add rkn-collaborants-v4 178.130.128.0/23
 add rkn-collaborants-v4 178.130.128.0/24
 add rkn-collaborants-v4 178.130.129.0/24
+add rkn-collaborants-v4 178.154.128.0/19
+add rkn-collaborants-v4 178.154.131.0/24
+add rkn-collaborants-v4 178.154.160.0/19
 add rkn-collaborants-v4 178.154.192.0/19
 add rkn-collaborants-v4 178.154.224.0/19
 add rkn-collaborants-v4 178.154.243.0/24
@@ -150,6 +155,7 @@ add rkn-collaborants-v4 185.241.192.0/22
 add rkn-collaborants-v4 185.29.130.0/24
 add rkn-collaborants-v4 185.32.184.0/23
 add rkn-collaborants-v4 185.32.186.0/24
+add rkn-collaborants-v4 185.32.187.0/24
 add rkn-collaborants-v4 185.32.248.0/22
 add rkn-collaborants-v4 185.32.249.0/24
 add rkn-collaborants-v4 185.32.251.0/24
@@ -270,6 +276,8 @@ add rkn-collaborants-v4 213.165.196.0/22
 add rkn-collaborants-v4 213.165.200.0/21
 add rkn-collaborants-v4 213.176.232.0/23
 add rkn-collaborants-v4 213.176.234.0/23
+add rkn-collaborants-v4 213.180.192.0/19
+add rkn-collaborants-v4 213.180.199.0/24
 add rkn-collaborants-v4 213.184.154.0/24
 add rkn-collaborants-v4 213.184.155.0/24
 add rkn-collaborants-v4 213.184.156.0/22
@@ -319,11 +327,16 @@ add rkn-collaborants-v4 31.44.8.0/21
 add rkn-collaborants-v4 31.44.9.0/24
 add rkn-collaborants-v4 37.139.32.0/22
 add rkn-collaborants-v4 37.139.40.0/22
+add rkn-collaborants-v4 37.140.128.0/18
 add rkn-collaborants-v4 37.230.168.0/23
 add rkn-collaborants-v4 37.230.172.0/22
+add rkn-collaborants-v4 37.9.112.0/24
 add rkn-collaborants-v4 37.9.51.0/24
+add rkn-collaborants-v4 37.9.64.0/18
+add rkn-collaborants-v4 37.9.64.0/24
 add rkn-collaborants-v4 37.9.75.0/24
 add rkn-collaborants-v4 37.9.86.0/24
+add rkn-collaborants-v4 37.9.87.0/24
 add rkn-collaborants-v4 37.9.98.0/24
 add rkn-collaborants-v4 45.136.20.0/22
 add rkn-collaborants-v4 45.137.112.0/22
@@ -345,12 +358,18 @@ add rkn-collaborants-v4 5.181.61.0/24
 add rkn-collaborants-v4 5.181.63.0/24
 add rkn-collaborants-v4 5.188.140.0/22
 add rkn-collaborants-v4 5.189.216.0/24
+add rkn-collaborants-v4 5.255.192.0/18
+add rkn-collaborants-v4 5.255.197.0/24
 add rkn-collaborants-v4 5.255.205.0/24
+add rkn-collaborants-v4 5.255.255.0/24
 add rkn-collaborants-v4 5.35.104.0/21
 add rkn-collaborants-v4 5.35.104.0/24
 add rkn-collaborants-v4 5.35.105.0/24
 add rkn-collaborants-v4 5.35.107.0/24
 add rkn-collaborants-v4 5.35.108.0/24
+add rkn-collaborants-v4 5.45.192.0/18
+add rkn-collaborants-v4 5.45.202.0/24
+add rkn-collaborants-v4 5.45.205.0/24
 add rkn-collaborants-v4 5.45.214.0/24
 add rkn-collaborants-v4 5.45.215.0/24
 add rkn-collaborants-v4 5.45.219.0/24
@@ -374,8 +393,12 @@ add rkn-collaborants-v4 77.220.218.0/24
 add rkn-collaborants-v4 77.220.220.0/24
 add rkn-collaborants-v4 77.220.221.0/24
 add rkn-collaborants-v4 77.220.223.0/24
+add rkn-collaborants-v4 77.88.0.0/18
 add rkn-collaborants-v4 77.88.12.0/23
+add rkn-collaborants-v4 77.88.44.0/24
+add rkn-collaborants-v4 77.88.55.0/24
 add rkn-collaborants-v4 77.88.6.0/24
+add rkn-collaborants-v4 77.88.8.0/24
 add rkn-collaborants-v4 79.133.96.0/24
 add rkn-collaborants-v4 79.137.132.0/24
 add rkn-collaborants-v4 79.137.139.0/24
@@ -413,6 +436,7 @@ add rkn-collaborants-v4 84.252.149.0/24
 add rkn-collaborants-v4 84.252.150.0/24
 add rkn-collaborants-v4 84.252.151.0/24
 add rkn-collaborants-v4 84.252.152.0/24
+add rkn-collaborants-v4 84.252.160.0/19
 add rkn-collaborants-v4 84.252.160.0/20
 add rkn-collaborants-v4 84.252.160.0/24
 add rkn-collaborants-v4 85.112.98.0/24
@@ -430,7 +454,9 @@ add rkn-collaborants-v4 87.240.128.0/18
 add rkn-collaborants-v4 87.240.166.0/24
 add rkn-collaborants-v4 87.240.167.0/24
 add rkn-collaborants-v4 87.242.112.0/22
+add rkn-collaborants-v4 87.250.224.0/19
 add rkn-collaborants-v4 87.250.240.0/24
+add rkn-collaborants-v4 87.250.247.0/24
 add rkn-collaborants-v4 87.251.92.0/23
 add rkn-collaborants-v4 87.251.92.0/24
 add rkn-collaborants-v4 87.251.93.0/24
@@ -506,6 +532,7 @@ add rkn-collaborants-v4 91.236.49.0/24
 add rkn-collaborants-v4 91.236.50.0/24
 add rkn-collaborants-v4 91.236.51.0/24
 add rkn-collaborants-v4 92.255.1.0/24
+add rkn-collaborants-v4 92.255.112.0/20
 add rkn-collaborants-v4 92.255.13.0/24
 add rkn-collaborants-v4 92.255.15.0/24
 add rkn-collaborants-v4 92.255.16.0/24
@@ -521,6 +548,7 @@ add rkn-collaborants-v4 92.42.164.0/24
 add rkn-collaborants-v4 92.42.165.0/24
 add rkn-collaborants-v4 92.42.166.0/24
 add rkn-collaborants-v4 92.42.167.0/24
+add rkn-collaborants-v4 93.158.128.0/18
 add rkn-collaborants-v4 93.158.144.0/22
 add rkn-collaborants-v4 93.158.184.0/21
 add rkn-collaborants-v4 93.158.184.0/24
@@ -543,6 +571,7 @@ add rkn-collaborants-v4 94.131.80.0/20
 add rkn-collaborants-v4 94.139.244.0/22
 add rkn-collaborants-v4 94.139.244.0/24
 add rkn-collaborants-v4 94.139.248.0/22
+add rkn-collaborants-v4 95.108.128.0/17
 add rkn-collaborants-v4 95.128.240.0/21
 add rkn-collaborants-v4 95.128.240.0/22
 add rkn-collaborants-v4 95.128.244.0/22
