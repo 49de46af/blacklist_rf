@@ -1,5 +1,5 @@
 # IPSet blacklist configuration
-# Last updated: 2026-11-24 16:53:06 UTC
+# Last updated: 2026-11-25 16:42:55 UTC
 #
 # Usage:
 #   1. Load the ipset:
@@ -14,7 +14,7 @@
 #      ipset destroy rkn-collaborants-v4
 #
 
-create rkn-collaborants-v4 hash:net family inet hashsize 1024 maxelem 1162
+create rkn-collaborants-v4 hash:net family inet hashsize 1024 maxelem 1156
 add rkn-collaborants-v4 103.76.52.0/22
 add rkn-collaborants-v4 109.120.180.0/22
 add rkn-collaborants-v4 109.120.188.0/22
@@ -456,9 +456,6 @@ add rkn-collaborants-v4 87.242.112.0/22
 add rkn-collaborants-v4 87.250.224.0/19
 add rkn-collaborants-v4 87.250.240.0/24
 add rkn-collaborants-v4 87.250.247.0/24
-add rkn-collaborants-v4 87.251.92.0/23
-add rkn-collaborants-v4 87.251.92.0/24
-add rkn-collaborants-v4 87.251.93.0/24
 add rkn-collaborants-v4 89.104.112.0/23
 add rkn-collaborants-v4 89.169.128.0/18
 add rkn-collaborants-v4 89.208.196.0/22
